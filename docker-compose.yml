@@ -24,3 +24,4 @@ services:
     environment:
       - PYTHONUNBUFFERED=1
       - MONGO_URI=mongodb://mongodb:27017
+      - MONGO_DB=notes-app
