@@ -2,6 +2,12 @@
 
 ## How to run the app
 
+You can run the app using the following command:
+
+```bash
+docker-compose up
+```
+
 ## Features
 - [ ] See note list
 - [ ] Create a new note
