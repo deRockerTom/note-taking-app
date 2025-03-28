@@ -1,4 +1,5 @@
 import uvicorn
+from api import api_router
 from fastapi import FastAPI
 
 app = FastAPI()
@@ -9,9 +10,10 @@ async def root():
     return {"message": "Welcome to the note taking app!"}
 
 
-@app.get("/health")
-async def health():
-    return {"status": "healthy"}
+app.include_router(
+    api_router,
+    prefix="/api",
+)
 
 
 if __name__ == "__main__":
