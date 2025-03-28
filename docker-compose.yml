@@ -10,3 +10,17 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+  app:
+    build:
+      context: .
+      dockerfile: app/Dockerfile
+    container_name: app
+    restart: always
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    ports:
+      - "8000:8000"
+    environment:
+      - PYTHONUNBUFFERED=1
+      - MONGO_URI=mongodb://mongodb:27017

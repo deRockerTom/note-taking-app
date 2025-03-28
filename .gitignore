@@ -1,2 +1,17 @@
+# MongoDB data
 mongo-data
-*.env
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+
+# VSCode
+.vscode/*
+!.vscode/settings.shared.json
+!.vscode/extensions.json
+
+# Python
+__pycache__/

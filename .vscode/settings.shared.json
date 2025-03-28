@@ -1,0 +1,30 @@
+{
+  "editor.rulers": [
+    99
+  ],
+  "files.insertFinalNewline": true,
+  "files.trimTrailingWhitespace": true,
+  "isort.args": [
+    "--profile",
+    "black"
+  ],
+  "[json][jsonc]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.black-formatter",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": "explicit"
+    }
+  },
+  "pylint.args": [
+    "--disable=C0114"
+  ],
+  "python.analysis.typeCheckingMode": "standard",
+  "python.testing.unittestEnabled": false,
+  "python.testing.pytestEnabled": true,
+  "flake8.args": [
+    "--config=app/.flake8",
+  ]
+}
