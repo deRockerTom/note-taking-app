@@ -72,13 +72,14 @@ def update_note(
     note_id: str,
     title: str,
     content: str,
-    old_version: int,
 ):
     """
     Update a note in the database.
     """
     if not title:
         raise ValueError("Title cannot be empty")
+    old_note = get_note(note_id=note_id)
+    old_version = old_note.version
     new_version = old_version + 1
     note = Note(
         title=title,

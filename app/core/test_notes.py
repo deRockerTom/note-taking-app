@@ -95,7 +95,6 @@ class TestGetNote:
             note_id=created_note.note_id,
             title=title,
             content=update_content,
-            old_version=created_note.version,
         )
 
         retrieved_note = get_note(note_id=created_note.note_id)
@@ -118,7 +117,6 @@ class TestUpdateNote:
             note_id=created_note.note_id,
             title=title,
             content=updated_content,
-            old_version=created_note.version,
         )
 
         assert updated_note.content == updated_content
@@ -148,7 +146,6 @@ class TestRollbackNote:
             note_id=created_note.note_id,
             title=title,
             content=updated_content,
-            old_version=created_note.version,
         )
 
         current_note = get_note(note_id=created_note.note_id)
@@ -166,17 +163,15 @@ class TestRollbackNote:
         content = "This is a test note."
         created_note = create_note(title=title, content=content)
 
-        updated_note_1 = update_note(
+        update_note(
             note_id=created_note.note_id,
             title=title,
             content="This is an updated test note.",
-            old_version=created_note.version,
         )
         updated_note_2 = update_note(
             note_id=created_note.note_id,
             title=title,
             content="This is another updated test note.",
-            old_version=updated_note_1.version,
         )
         current_note = get_note(note_id=created_note.note_id)
         assert current_note == updated_note_2
@@ -221,7 +216,6 @@ class TestGetAllNotes:
             note_id=created_note_1.note_id,
             title=title_1_updated,
             content=content_1,
-            old_version=created_note_1.version,
         )
 
         notes = get_all_notes()
