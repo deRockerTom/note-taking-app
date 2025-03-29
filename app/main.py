@@ -1,5 +1,6 @@
 import uvicorn
 from api import api_router
+from api.v1.models.shared import DefaultAPIResponse
 from errors import BackException
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
@@ -17,7 +18,7 @@ async def back_exception_handler(request, exc: BackException):
     )
 
 
-@app.get("/")
+@app.get("/", response_model=DefaultAPIResponse)
 async def root():
     return {"message": "Welcome to the note taking app!"}
 
