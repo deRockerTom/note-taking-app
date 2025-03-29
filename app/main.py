@@ -1,8 +1,20 @@
 import uvicorn
 from api import api_router
+from errors import BackException
 from fastapi import FastAPI
+from fastapi.responses import JSONResponse
 
 app = FastAPI()
+
+
+@app.exception_handler(BackException)
+async def back_exception_handler(request, exc: BackException):
+    return JSONResponse(
+        status_code=exc.status_code,
+        content={
+            "detail": exc.message,
+        },
+    )
 
 
 @app.get("/")

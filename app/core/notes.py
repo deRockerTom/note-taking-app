@@ -1,6 +1,7 @@
 import uuid
 
 from database import db
+from errors import BackException
 from pydantic import BaseModel
 from pymongo import ASCENDING, DESCENDING
 
@@ -64,7 +65,7 @@ def get_note(note_id: str):
         note_collection.find({"note_id": note_id}).sort("version", DESCENDING).limit(1)
     )
     if not notes:
-        raise ValueError("Note not found")
+        raise BackException("Note not found", 404)
     return Note(**notes[0])
 
 
@@ -77,7 +78,7 @@ def update_note(
     Update a note in the database.
     """
     if not title:
-        raise ValueError("Title cannot be empty")
+        raise BackException("Title cannot be empty", 400)
     old_note = get_note(note_id=note_id)
     old_version = old_note.version
     new_version = old_version + 1
@@ -99,7 +100,7 @@ def create_note(
     Create a new note in the database.
     """
     if not title:
-        raise ValueError("Title cannot be empty")
+        raise BackException("Title cannot be empty", 400)
 
     # Generate a new random note_id
     while True:
@@ -126,7 +127,7 @@ def rollback_note(
     Rollback a note to a previous version.
     """
     if version < 0:
-        raise ValueError("Version must be greater than 0")
+        raise BackException("Version must be greater than 0", 400)
     # Delete all versions greater than the specified version
     note_collection.delete_many({"note_id": note_id, "version": {"$gt": version}})
     return

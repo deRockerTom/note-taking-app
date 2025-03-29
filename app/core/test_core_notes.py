@@ -13,12 +13,13 @@ from core.notes import (
     rollback_note,
     update_note,
 )
+from errors import BackException
 from pydantic import ValidationError
 
 TEST_DB = {"MONGO_DB": "core-test-notes"}
 
 
-@pytest.fixture(scope="session", autouse=True)
+@pytest.fixture(scope="function", autouse=True)
 def patch_env_and_reload_modules():
     """
     Fixture to patch the environment variables and reload relevant modules.
@@ -72,8 +73,9 @@ class TestCreateNote:
     def test_create_note_with_empty_title(self):
         title = ""
         content = "This is a test note."
-        with pytest.raises(ValueError):
+        with pytest.raises(BackException) as e:
             create_note(title=title, content=content)
+        assert e.value.status_code == 400
 
 
 class TestGetNote:
@@ -100,10 +102,11 @@ class TestGetNote:
         retrieved_note = get_note(note_id=created_note.note_id)
         assert retrieved_note == updated_note
 
-    def test_get_note_with_invalid_note_id(self):
+    def test_get_note_with_unknown_note_id(self):
         invalid_note_id = str(uuid.uuid4())
-        with pytest.raises(ValueError):
+        with pytest.raises(BackException) as e:
             get_note(note_id=invalid_note_id)
+        assert e.value.status_code == 404
 
 
 class TestUpdateNote:
@@ -131,8 +134,9 @@ class TestDeleteNote:
 
         delete_note(note_id=created_note.note_id)
 
-        with pytest.raises(ValueError):
+        with pytest.raises(BackException) as e:
             get_note(note_id=created_note.note_id)
+        assert e.value.status_code == 404
 
 
 class TestRollbackNote:
