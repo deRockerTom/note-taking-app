@@ -3,6 +3,7 @@ from api import api_router
 from api.v1.models.shared import DefaultAPIResponse
 from errors import BackException
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
 app = FastAPI()
@@ -16,6 +17,9 @@ async def back_exception_handler(request, exc: BackException):
             "detail": exc.message,
         },
     )
+
+
+app.add_middleware(CORSMiddleware, allow_origins=["*"])
 
 
 @app.get("/", response_model=DefaultAPIResponse)
