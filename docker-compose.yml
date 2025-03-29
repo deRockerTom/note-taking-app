@@ -12,6 +12,7 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+      start_period: 5s
   app:
     build:
       context: .
@@ -27,3 +28,22 @@ services:
       - PYTHONUNBUFFERED=1
       - MONGO_URI=mongodb://mongodb:27017
       - MONGO_DB=notes-app
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 2s
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+      args:
+        - VITE_BACKEND_URL=http://localhost:8001
+    container_name: frontend
+    restart: always
+    depends_on:
+      app:
+        condition: service_healthy
+    ports:
+      - "3000:3000"
