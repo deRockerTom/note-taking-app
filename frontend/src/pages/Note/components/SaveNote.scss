@@ -1,0 +1,27 @@
+.save-note {
+  background-color: var(--green-color); // Green background
+  color: var(--white-color); // White text
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 0.7rem 1.5rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 0.5rem;
+  width: 20%;
+  margin-right: auto;
+  margin-left: auto;
+
+  &:hover {
+    background-color: var(--dark-green-color); // Darker green on hover
+  }
+
+  &:active {
+    background-color: var(--darker-green-color); // Even darker green on click
+  }
+
+  &:disabled {
+    background-color: var(--light-color-2); // Gray out when disabled
+    cursor: not-allowed;
+  }
+}

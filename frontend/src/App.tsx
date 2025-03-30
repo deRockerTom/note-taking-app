@@ -5,8 +5,8 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import Layout from "./components/Layout";
-import Home from "./pages/Home";
-import Note from "./pages/Note";
+import Home from "./pages/Home/Home";
+import Note from "./pages/Note/Note";
 import "./App.scss"; // Global styles
 
 const router = createBrowserRouter(

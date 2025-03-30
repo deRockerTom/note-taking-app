@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from "react";
-import { getOneNoteApiV1NotesNoteIdGet, Note as NoteType } from "../client";
-import { backendFetchClient } from "../shared/fetchClient";
-import { useRequiredParam } from "../hooks/useRequiredParam";
+import { getOneNoteApiV1NotesNoteIdGet, Note as NoteType } from "../../client";
+import { backendFetchClient } from "../../shared/fetchClient";
+import { useRequiredParam } from "../../hooks/useRequiredParam";
 import { unstable_usePrompt } from "react-router-dom";
-import DeleteNote from "../components/DeleteNote/DeleteNote";
-import { useLayoutContext } from "../components/Layout.helpers";
+import DeleteNote from "../../components/DeleteNote/DeleteNote";
+import { useLayoutContext } from "../../components/Layout.helpers";
 import "./Note.scss";
+import SaveNote from "./components/SaveNote";
 
 function Note() {
   const noteId = useRequiredParam("noteId");
@@ -85,6 +86,28 @@ function Note() {
         onChange={handleContentChange}
         className="note__content"
         placeholder="Note Content"
+      />
+      <SaveNote
+        noteId={noteId}
+        content={content}
+        title={title}
+        onSave={() => {
+          // Here we assume that the note wasn't modified after in the backend
+          // and we can just update the local state
+          // We could also check the backend for the latest version of the note
+          // instead
+          setRemoteNote((prev) => {
+            if (!prev) return prev;
+            return {
+              ...prev,
+              title,
+              content,
+            };
+          });
+        }}
+        disabled={
+          title === remoteNote?.title && content === remoteNote?.content
+        }
       />
     </div>
   );
