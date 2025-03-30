@@ -3,7 +3,7 @@ from datetime import datetime
 
 from database import db
 from errors import BackException
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 from pymongo import ASCENDING, DESCENDING
 
 note_collection = db["notes"]
