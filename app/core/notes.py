@@ -27,7 +27,7 @@ class Note(BaseModel):
     content: str
     note_id: str
     version: int
-    date: datetime = Field(default_factory=now_truncated)
+    date: datetime
 
 
 class GetAllNotesResponse(BaseModel):
@@ -100,6 +100,7 @@ def update_note(
         content=content,
         note_id=note_id,
         version=new_version,
+        date=now_truncated(),
     )
     note_collection.insert_one(note.model_dump())
     return note
@@ -126,6 +127,7 @@ def create_note(
         content=content,
         note_id=note_id,
         version=0,
+        date=now_truncated(),
     )
 
     note_collection.insert_one(note.model_dump())
