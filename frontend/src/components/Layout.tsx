@@ -1,4 +1,4 @@
-import { Outlet, Link, useParams } from "react-router-dom";
+import { Outlet, Link, useParams, useNavigate } from "react-router-dom";
 import noteTakingAppLogo from "/note-taking-logo.svg";
 import "./Layout.scss";
 import NoteList from "./NoteList/NoteList";
@@ -9,6 +9,7 @@ import CreateNote from "./CreateNote/CreateNote";
 
 function Layout() {
   const { noteId } = useParams();
+  const navigate = useNavigate();
 
   const [noteList, setNoteList] = useState<GetAllNotesResponse[]>([]);
 
@@ -30,6 +31,15 @@ function Layout() {
       });
   };
 
+  const handleDeleteNote = (noteIdToDelete: string) => {
+    if (noteIdToDelete === noteId) {
+      navigate("/")?.catch((error) => {
+        console.error("Error navigating to Home after deleting a note:", error);
+      });
+    }
+    refreshNoteList();
+  };
+
   useEffect(() => {
     refreshNoteList();
   }, []);
@@ -47,7 +57,11 @@ function Layout() {
           </div>
         </Link>
         <CreateNote onCreate={refreshNoteList} />
-        <NoteList notes={noteList} activeNoteId={noteId} />
+        <NoteList
+          notes={noteList}
+          activeNoteId={noteId}
+          onDelete={handleDeleteNote}
+        />
       </div>
 
       <main className="layout__content">

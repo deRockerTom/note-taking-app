@@ -2,25 +2,33 @@ import { Link } from "react-router-dom";
 import { GetAllNotesResponse } from "../../client";
 import "./NoteList.scss";
 import classNames from "classnames";
+import DeleteNote from "../DeleteNote/DeleteNote";
 
 interface NoteListProps {
   notes: GetAllNotesResponse[];
   activeNoteId?: string;
+  onDelete?: (noteId: string) => void;
 }
 
-function NoteList({ notes, activeNoteId }: NoteListProps) {
+function NoteList({ notes, activeNoteId, onDelete }: NoteListProps) {
   return (
     <div className="note-list">
       {notes.map((note) => (
-        <Link key={note.note_id} to={`/${note.note_id}`}>
-          <div
-            className={classNames("note-list__item", {
-              "note-list__item--active": activeNoteId === note.note_id,
-            })}
-          >
-            {note.title}
-          </div>
-        </Link>
+        <div
+          key={note.note_id}
+          className={classNames("note-list__item", {
+            "note-list__item--active": activeNoteId === note.note_id,
+          })}
+        >
+          <Link to={`/${note.note_id}`} className="note-list__item__link">
+            <div className="note-list__item__link__title">{note.title}</div>
+          </Link>
+          <DeleteNote
+            noteId={note.note_id}
+            className="note-list__item__trash-can"
+            onDelete={onDelete}
+          />
+        </div>
       ))}
     </div>
   );
