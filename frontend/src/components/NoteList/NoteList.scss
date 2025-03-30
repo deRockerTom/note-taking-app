@@ -1,0 +1,22 @@
+.note-list {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+
+  &__item {
+    &:hover {
+      background: var(--light-color-2);
+    }
+
+    display: block;
+    padding: 1rem;
+    border-bottom: 1px solid var(--light-color-2);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    &--active {
+      background: var(--light-color-2);
+    }
+  }
+}

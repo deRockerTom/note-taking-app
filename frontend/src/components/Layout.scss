@@ -1,0 +1,35 @@
+.layout {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+
+  &__sidebar {
+    width: 20%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: var(--light-color);
+    border-right: 1px solid var(--light-color-2);
+
+    &__link {
+      border-bottom: 1px solid var(--light-color-2);
+      &:hover {
+        background: var(--light-color-2);
+      }
+      &:active {
+        background: var(--light-color-2);
+      }
+      &__logo {
+        height: 7.5rem;
+        margin-bottom: 0.5rem;
+        display: flex;
+        margin-left: auto;
+        margin-right: auto;
+      }
+    }
+  }
+
+  &__content {
+    flex: 1;
+  }
+}
