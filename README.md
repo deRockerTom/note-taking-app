@@ -9,10 +9,10 @@ docker-compose up
 ```
 
 ## Features
-- [ ] See note list
-- [ ] Create a new note
-- [ ] Modify an existing note
-- [ ] Delete a note
+- [x] See note list
+- [x] Create a new note
+- [x] Modify an existing note
+- [x] Delete a note
 - [ ] Show the modification history of a note
   - [ ] Optional: Have a "git diff" like to see the changes from previous versions
 - [ ] Go back to a previous version
