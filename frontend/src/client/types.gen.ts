@@ -119,7 +119,7 @@ export type CreateOneNoteApiV1NotesPostResponses = {
     /**
      * Successful Response
      */
-    200: DefaultApiResponse;
+    200: Note;
 };
 
 export type CreateOneNoteApiV1NotesPostResponse = CreateOneNoteApiV1NotesPostResponses[keyof CreateOneNoteApiV1NotesPostResponses];

@@ -41,19 +41,17 @@ async def get_one_note(note_id: str):
     return note
 
 
-@notes_router.post("/", response_model=DefaultAPIResponse)
+@notes_router.post("/", response_model=Note)
 async def create_one_note(create_note_request: CreateNoteAPIRequest):
     """
     Create a new note.
     """
     print("yolo", create_note_request)
-    create_note(
+    note = create_note(
         title=create_note_request.title,
         content=create_note_request.content,
     )
-    return DefaultAPIResponse(
-        message="Note created successfully",
-    )
+    return note
 
 
 @notes_router.delete("/{note_id}", response_model=DefaultAPIResponse)

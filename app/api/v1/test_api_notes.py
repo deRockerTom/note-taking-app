@@ -62,12 +62,24 @@ class TestGetOneNote:
 class TestCreateOneNote:
     @patch("api.v1.notes.create_note")
     def test_create_one_note(self, mock_create_note: Mock):
-        mock_create_note.return_value = None
+        mock_create_note.return_value = Note(
+            title="Test Note",
+            content="This is a test note.",
+            note_id="1",
+            version=1,
+            date=datetime.now(),
+        )
         response = client.post(
             "/", json={"title": "Test Note", "content": "This is a test note."}
         )
         assert response.status_code == 200
-        assert response.json() == {"message": "Note created successfully"}
+        assert response.json() == {
+            "note_id": "1",
+            "title": "Test Note",
+            "date": mock_create_note.return_value.date.isoformat(),
+            "content": "This is a test note.",
+            "version": 1,
+        }
         mock_create_note.assert_called_once_with(
             title="Test Note", content="This is a test note."
         )

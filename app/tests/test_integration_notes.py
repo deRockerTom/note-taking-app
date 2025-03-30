@@ -86,7 +86,11 @@ class TestCreateOneNote:
             json={"title": "Test Note", "content": "This is a test note."},
         )
         assert response.status_code == 200
-        assert response.json() == {"message": "Note created successfully"}
+        assert response.json()["title"] == "Test Note"
+        assert response.json()["content"] == "This is a test note."
+        assert response.json()["note_id"] is not None
+        assert response.json()["version"] == 0
+        assert response.json()["date"] is not None
         # Verify the note was created
         all_notes = client.get("/api/v1/notes/")
         assert len(all_notes.json()["notes"]) == 1
