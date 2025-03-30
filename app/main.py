@@ -19,7 +19,11 @@ async def back_exception_handler(request, exc: BackException):
     )
 
 
-app.add_middleware(CORSMiddleware, allow_origins=["*"])
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+)
 
 
 @app.get("/", response_model=DefaultAPIResponse)
