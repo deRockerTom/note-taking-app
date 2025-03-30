@@ -3,6 +3,7 @@ import { getOneNoteApiV1NotesNoteIdGet, Note as NoteType } from "../client";
 import { backendFetchClient } from "../shared/fetchClient";
 import { useRequiredParam } from "../hooks/useRequiredParam";
 import "./Note.scss";
+import { unstable_usePrompt } from "react-router-dom";
 
 function Note() {
   const noteId = useRequiredParam("noteId");
@@ -45,6 +46,13 @@ function Note() {
         console.error("Error fetching note:", error);
       });
   }, [noteId]);
+
+  unstable_usePrompt({
+    message:
+      "Are you sure that you want to leave ? You have unsaved changes that will be lost if you leave.",
+    when: () =>
+      title !== _remoteNote?.title || content !== _remoteNote?.content,
+  });
 
   return (
     <div className="note">
