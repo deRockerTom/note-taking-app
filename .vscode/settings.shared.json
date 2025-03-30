@@ -29,5 +29,8 @@
   "python.testing.pytestEnabled": true,
   "flake8.args": [
     "--config=app/.flake8",
-  ]
+  ],
+  "[javascript][typescript][scss]": {
+    "editor.tabSize": 2
+  },
 }
