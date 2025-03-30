@@ -17,7 +17,7 @@ After installing the dependencies, you can run the following command to start th
 ```bash
 bun run dev
 ```
-This will start the development server and open the application in your default web browser. The application will be running at `http://localhost:3000`.
+This will start the development server and open the application in your default web browser. The application will be running at `http://localhost:5173`.
 
 In order for the application to work, you need to have the backend server running. You'll also need to set the `VITE_BACKEND_URL` environment variable to the URL of the backend server in a `.env` file. For example, if the backend server is running at `http://localhost:8000`, you can create a `.env` file with the following content:
 
