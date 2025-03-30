@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { createOneNoteApiV1NotesPost } from "../../client";
 
 import "./CreateNote.scss";
@@ -70,11 +70,14 @@ function CreateNote({ onCreate }: CreateNoteProps) {
   }, []);
 
   return (
-    <div className="create-note">
+    <div
+      className="create-note"
+      onClick={() => !isEditing && setIsEditing(true)}
+    >
       {isEditing ? (
-        <div className="create-note__input-container">
+        <Fragment>
           <input
-            className="create-note__input"
+            className="create-note__input-container__input"
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
@@ -83,18 +86,15 @@ function CreateNote({ onCreate }: CreateNoteProps) {
             autoFocus
           />
           <button
-            className="create-note__button"
+            className="create-note__input-container__button"
             onClick={handleCreateNote}
             type="submit"
           >
             Create
           </button>
-        </div>
+        </Fragment>
       ) : (
-        <div
-          className="create-note__fake-note"
-          onClick={() => setIsEditing(true)}
-        >
+        <div className="create-note__fake-note">
           <span className="create-note__icon">+</span> Create a new note
         </div>
       )}

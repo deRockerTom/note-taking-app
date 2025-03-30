@@ -4,22 +4,20 @@
   background-color: var(--light-color);
   border-bottom: 1px solid var(--light-color-2);
   display: flex;
-  flex-direction: column;
   cursor: pointer;
+  &:hover {
+    background-color: var(--light-color-2);
+  }
 
   &__fake-note {
     display: flex;
     align-items: center;
-    color: #444;
+    color: var(--dark-color);
     font-size: 1.2rem;
 
     .create-note__icon {
       font-size: 1.5rem;
       margin-right: 0.5rem;
-    }
-
-    &:hover {
-      background-color: var(--light-color-2);
     }
   }
 
@@ -27,16 +25,23 @@
     display: flex;
     align-items: center;
 
-    .create-note__input {
+    &__input {
       flex: 1;
-      padding: 0.5rem;
       font-size: 1rem;
-      border: 1px solid #ccc;
       margin-right: 0.5rem;
-      border-radius: 5px;
+      min-width: 0;
+      background-color: var(--light-color);
+      border: none;
+      background: transparent;
+
+      &:focus {
+        outline: none;
+        border: none;
+        background-color: none;
+      }
     }
 
-    .create-note__button {
+    &__button {
       padding: 0.5rem;
       font-size: 1rem;
       background-color: #4caf50;
@@ -44,6 +49,9 @@
       border: none;
       border-radius: 5px;
       cursor: pointer;
+      width: 25%;
+      overflow: hidden;
+      text-overflow: ellipsis;
 
       &:hover {
         background-color: #45a049;
