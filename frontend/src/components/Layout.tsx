@@ -2,10 +2,11 @@ import { Outlet, Link, useParams, useNavigate } from "react-router-dom";
 import noteTakingAppLogo from "/note-taking-logo.svg";
 import "./Layout.scss";
 import NoteList from "./NoteList/NoteList";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { GetAllNotesResponse, getNotesApiV1NotesGet } from "../client";
 import { backendFetchClient } from "../shared/fetchClient";
 import CreateNote from "./CreateNote/CreateNote";
+import { LayoutContext } from "./Layout.helpers";
 
 function Layout() {
   const { noteId } = useParams();
@@ -13,7 +14,7 @@ function Layout() {
 
   const [noteList, setNoteList] = useState<GetAllNotesResponse[]>([]);
 
-  const refreshNoteList = () => {
+  const refreshNoteList = useCallback(() => {
     getNotesApiV1NotesGet({
       client: backendFetchClient,
     })
@@ -29,20 +30,34 @@ function Layout() {
       .catch((error) => {
         console.error("Error fetching notes:", error);
       });
-  };
+  }, []);
 
-  const handleDeleteNote = (noteIdToDelete: string) => {
-    if (noteIdToDelete === noteId) {
-      navigate("/")?.catch((error) => {
-        console.error("Error navigating to Home after deleting a note:", error);
-      });
-    }
-    refreshNoteList();
-  };
+  const handleDeleteNote = useCallback(
+    (noteIdToDelete: string) => {
+      if (noteIdToDelete === noteId) {
+        navigate("/")?.catch((error) => {
+          console.error(
+            "Error navigating to Home after deleting a note:",
+            error,
+          );
+        });
+      }
+      refreshNoteList();
+    },
+    [noteId, refreshNoteList, navigate],
+  );
+
+  const outletContext = useMemo<LayoutContext>(
+    () => ({
+      refreshNoteList,
+      handleDeleteNote,
+    }),
+    [refreshNoteList, handleDeleteNote],
+  );
 
   useEffect(() => {
     refreshNoteList();
-  }, []);
+  }, [refreshNoteList]);
 
   return (
     <div className="layout">
@@ -65,7 +80,7 @@ function Layout() {
       </div>
 
       <main className="layout__content">
-        <Outlet />
+        <Outlet context={outletContext} />
       </main>
     </div>
   );

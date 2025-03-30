@@ -3,16 +3,29 @@
   flex-direction: column;
   height: 100%;
 
-  &__title {
-    font-size: 1.8rem;
-    color: var(--black-color);
-    border: none;
-    background: transparent;
+  &__header {
     width: 100%;
-    height: 2rem;
-    margin: 1rem 0;
-    font-weight: bold;
-    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    &__title {
+      flex: 1;
+      font-size: 1.8rem;
+      color: var(--black-color);
+      border: none;
+      background: transparent;
+      height: 2rem;
+      margin: 1rem 0;
+      font-weight: bold;
+      padding: 0 2rem;
+    }
+    &__trash-can {
+      display: flex;
+      padding: 1.5rem;
+      justify-content: center;
+      align-items: center;
+      margin-right: 1rem;
+      width: fit-content;
+    }
   }
 
   &__content {
@@ -26,7 +39,7 @@
     overflow-y: auto;
   }
 
-  &__title:focus,
+  &__header__title:focus,
   &__content:focus {
     border: none;
     outline: none;
