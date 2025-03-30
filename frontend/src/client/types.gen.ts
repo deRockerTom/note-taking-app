@@ -19,6 +19,7 @@ export type GetAllNotesApiResponse = {
 export type GetAllNotesResponse = {
     title: string;
     note_id: string;
+    date: string;
 };
 
 export type HttpValidationError = {
@@ -37,6 +38,7 @@ export type Note = {
     content: string;
     note_id: string;
     version: number;
+    date: string;
 };
 
 export type RollbackNoteApiRequest = {
