@@ -3,6 +3,7 @@ import { createOneNoteApiV1NotesPost } from "../../client";
 
 import "./CreateNote.scss";
 import { backendFetchClient } from "../../shared/fetchClient";
+import { useNavigate } from "react-router-dom";
 
 interface CreateNoteProps {
   onCreate: (title: string) => void;
@@ -11,6 +12,7 @@ interface CreateNoteProps {
 function CreateNote({ onCreate }: CreateNoteProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [title, setTitle] = useState("");
+  const navigate = useNavigate();
 
   // Handle the "Create" button click or pressing Enter
   const handleCreateNote = () => {
@@ -19,7 +21,7 @@ function CreateNote({ onCreate }: CreateNoteProps) {
         client: backendFetchClient,
         body: {
           title,
-          content: "toto",
+          content: "",
         },
       })
         .then(({ data, error }) => {
@@ -31,6 +33,9 @@ function CreateNote({ onCreate }: CreateNoteProps) {
             setTitle("");
             setIsEditing(false);
             onCreate(title);
+            navigate(`/${data.note_id}`)?.catch((error) => {
+              console.error("Error navigating to new note:", error);
+            });
           }
         })
         .catch((error) => {
