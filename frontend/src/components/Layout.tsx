@@ -27,7 +27,7 @@ function Layout() {
       .catch((error) => {
         console.error("Error fetching notes:", error);
       });
-  });
+  }, []);
 
   return (
     <div className="layout">
