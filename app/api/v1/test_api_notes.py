@@ -1,6 +1,7 @@
+from datetime import datetime
 from unittest.mock import Mock, patch
 
-from core.notes import GetAllNotesResponse
+from core.notes import GetAllNotesResponse, Note
 from fastapi.testclient import TestClient
 
 from .notes import notes_router
@@ -20,27 +21,41 @@ class TestGetAllNotes:
     @patch("api.v1.notes.get_all_notes")
     def test_get_all_notes_with_notes(self, mock_get_all_notes: Mock):
         mock_get_all_notes.return_value = [
-            GetAllNotesResponse(
-                note_id="1",
-                title="Test Note",
-            )
+            GetAllNotesResponse(note_id="1", title="Test Note", date=datetime.now())
         ]
         response = client.get("/")
         assert response.status_code == 200
-        assert response.json() == {"notes": [{"note_id": "1", "title": "Test Note"}]}
+        assert response.json() == {
+            "notes": [
+                {
+                    "note_id": "1",
+                    "title": "Test Note",
+                    "date": mock_get_all_notes.return_value[0].date.isoformat(),
+                }
+            ]
+        }
         mock_get_all_notes.assert_called_once()
 
 
 class TestGetOneNote:
     @patch("api.v1.notes.get_note")
     def test_get_one_note(self, mock_get_note: Mock):
-        mock_get_note.return_value = GetAllNotesResponse(
-            note_id="1",
+        mock_get_note.return_value = Note(
             title="Test Note",
+            content="This is a test note.",
+            note_id="1",
+            version=1,
+            date=datetime.now(),
         )
         response = client.get("/1")
         assert response.status_code == 200
-        assert response.json() == {"note_id": "1", "title": "Test Note"}
+        assert response.json() == {
+            "note_id": "1",
+            "title": "Test Note",
+            "date": mock_get_note.return_value.date.isoformat(),
+            "content": "This is a test note.",
+            "version": 1,
+        }
         mock_get_note.assert_called_once_with("1")
 
 
@@ -71,16 +86,25 @@ class TestDeleteOneNote:
 class TestUpdateOneNote:
     @patch("api.v1.notes.update_note")
     def test_update_one_note(self, mock_update_note: Mock):
-        mock_update_note.return_value = GetAllNotesResponse(
-            note_id="1",
+        mock_update_note.return_value = Note(
             title="Test Note",
+            content="This is a test note.",
+            note_id="1",
+            version=1,
+            date=datetime.now(),
         )
         response = client.put(
             "/1",
             json={"title": "Updated Note", "content": "This is an updated test note."},
         )
         assert response.status_code == 200
-        assert response.json() == {"note_id": "1", "title": "Test Note"}
+        assert response.json() == {
+            "note_id": "1",
+            "title": "Test Note",
+            "content": "This is a test note.",
+            "date": mock_update_note.return_value.date.isoformat(),
+            "version": 1,
+        }
         mock_update_note.assert_called_once_with(
             note_id="1", title="Updated Note", content="This is an updated test note."
         )

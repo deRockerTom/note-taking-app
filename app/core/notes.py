@@ -1,11 +1,21 @@
 import uuid
+from datetime import datetime
 
 from database import db
 from errors import BackException
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from pymongo import ASCENDING, DESCENDING
 
 note_collection = db["notes"]
+
+
+def now_truncated():
+    """
+    Get the current time truncated to seconds.
+    This is used because MongoDB does not support microseconds.
+    """
+    now = datetime.now()
+    return now.replace(microsecond=(now.microsecond // 1000) * 1000)
 
 
 class Note(BaseModel):
@@ -17,6 +27,7 @@ class Note(BaseModel):
     content: str
     note_id: str
     version: int
+    date: datetime = Field(default_factory=now_truncated)
 
 
 class GetAllNotesResponse(BaseModel):
@@ -26,6 +37,7 @@ class GetAllNotesResponse(BaseModel):
 
     title: str
     note_id: str
+    date: datetime
 
 
 def get_all_notes():
@@ -46,9 +58,10 @@ def get_all_notes():
                     "$first": "$note_id"
                 },  # Take the first note_id in the group (the most recent)
                 "title": {"$first": "$title"},  # Take the title of the most recent note
+                "date": {"$first": "$date"},  # Take the date of the most recent note
             }
         },
-        {"$sort": {"title": ASCENDING}},  # Sort the final results by title
+        {"$sort": {"date": DESCENDING}},  # Sort the final results by title
     ]
 
     notes = list(note_collection.aggregate(pipeline))

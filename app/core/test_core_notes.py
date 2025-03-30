@@ -1,6 +1,7 @@
 import importlib
 import os
 import uuid
+from time import sleep
 from unittest.mock import patch
 
 import pytest
@@ -196,6 +197,7 @@ class TestGetAllNotes:
         title_1 = "Test Note"
         content_1 = "This is a test note."
         created_note_1 = create_note(title=title_1, content=content_1)
+        sleep(0.001)  # Ensure different timestamps
 
         title_2 = "Test Note 2"
         content_2 = "This is a test note 2."
@@ -203,18 +205,20 @@ class TestGetAllNotes:
 
         notes = get_all_notes()
         assert len(notes) == 2
-        assert notes[0].title == created_note_1.title
-        assert notes[0].note_id == created_note_1.note_id
-        assert notes[1].title == created_note_2.title
-        assert notes[1].note_id == created_note_2.note_id
+        assert notes[0].title == created_note_2.title
+        assert notes[0].note_id == created_note_2.note_id
+        assert notes[1].title == created_note_1.title
+        assert notes[1].note_id == created_note_1.note_id
 
     def test_get_all_notes_with_updated_notes_should_get_last_title(self):
         title_1 = "Test Note"
         content_1 = "This is a test note."
         created_note_1 = create_note(title=title_1, content=content_1)
+        sleep(0.1)  # Ensure different timestamps
         title_2 = "Test Note 2"
         content_2 = "This is a test note 2."
         created_note_2 = create_note(title=title_2, content=content_2)
+        sleep(0.1)  # Ensure different timestamps
         title_1_updated = "Test Note Updated"
         updated_note_1 = update_note(
             note_id=created_note_1.note_id,
@@ -224,7 +228,7 @@ class TestGetAllNotes:
 
         notes = get_all_notes()
         assert len(notes) == 2
-        assert notes[0].title == created_note_2.title
-        assert notes[0].note_id == created_note_2.note_id
-        assert notes[1].title == updated_note_1.title
-        assert notes[1].note_id == created_note_1.note_id
+        assert notes[0].title == updated_note_1.title
+        assert notes[0].note_id == updated_note_1.note_id
+        assert notes[1].title == created_note_2.title
+        assert notes[1].note_id == created_note_2.note_id
