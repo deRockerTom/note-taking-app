@@ -9,7 +9,7 @@ import reactRecommended from "eslint-plugin-react";
 import eslintPluginPrettier from "eslint-plugin-prettier";
 
 export default tseslint.config(
-  { ignores: ["dist", "client"] },
+  { ignores: ["dist", "src/client"] },
   {
     extends: [
       js.configs.recommended,
