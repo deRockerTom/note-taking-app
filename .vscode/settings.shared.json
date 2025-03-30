@@ -30,7 +30,7 @@
   "flake8.args": [
     "--config=app/.flake8",
   ],
-  "[javascript][typescript][scss]": {
+  "[javascript][typescript][scss][typescriptreact][javascriptreact]": {
     "editor.tabSize": 2
   },
 }

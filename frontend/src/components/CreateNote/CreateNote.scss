@@ -1,0 +1,53 @@
+/* CreateNote.scss */
+.create-note {
+  padding: 1rem;
+  background-color: var(--light-color);
+  border-bottom: 1px solid var(--light-color-2);
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+
+  &__fake-note {
+    display: flex;
+    align-items: center;
+    color: #444;
+    font-size: 1.2rem;
+
+    .create-note__icon {
+      font-size: 1.5rem;
+      margin-right: 0.5rem;
+    }
+
+    &:hover {
+      background-color: var(--light-color-2);
+    }
+  }
+
+  &__input-container {
+    display: flex;
+    align-items: center;
+
+    .create-note__input {
+      flex: 1;
+      padding: 0.5rem;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      margin-right: 0.5rem;
+      border-radius: 5px;
+    }
+
+    .create-note__button {
+      padding: 0.5rem;
+      font-size: 1rem;
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #45a049;
+      }
+    }
+  }
+}

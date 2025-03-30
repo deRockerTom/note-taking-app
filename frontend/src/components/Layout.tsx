@@ -5,13 +5,14 @@ import NoteList from "./NoteList/NoteList";
 import { useEffect, useState } from "react";
 import { GetAllNotesResponse, getNotesApiV1NotesGet } from "../client";
 import { backendFetchClient } from "../shared/fetchClient";
+import CreateNote from "./CreateNote/CreateNote";
 
 function Layout() {
   const { noteId } = useParams();
 
   const [noteList, setNoteList] = useState<GetAllNotesResponse[]>([]);
 
-  useEffect(() => {
+  const refreshNoteList = () => {
     getNotesApiV1NotesGet({
       client: backendFetchClient,
     })
@@ -27,6 +28,10 @@ function Layout() {
       .catch((error) => {
         console.error("Error fetching notes:", error);
       });
+  };
+
+  useEffect(() => {
+    refreshNoteList();
   }, []);
 
   return (
@@ -41,6 +46,7 @@ function Layout() {
             />
           </div>
         </Link>
+        <CreateNote onCreate={refreshNoteList} />
         <NoteList notes={noteList} activeNoteId={noteId} />
       </div>
 

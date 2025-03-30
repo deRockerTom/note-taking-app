@@ -46,6 +46,7 @@ async def create_one_note(create_note_request: CreateNoteAPIRequest):
     """
     Create a new note.
     """
+    print("yolo", create_note_request)
     create_note(
         title=create_note_request.title,
         content=create_note_request.content,
