@@ -1,25 +1,15 @@
-import { useParams } from "react-router-dom";
-import "./Note.scss";
 import { useEffect, useState } from "react";
-
-const notes = {
-  "1": {
-    title: "First Note",
-    content: "This is the content of the first note.",
-  },
-  "2": {
-    title: "Second Note",
-    content: "This is the content of the second note.",
-  },
-};
+import { getOneNoteApiV1NotesNoteIdGet, Note as NoteType } from "../client";
+import { backendFetchClient } from "../shared/fetchClient";
+import { useRequiredParam } from "../hooks/useRequiredParam";
+import "./Note.scss";
 
 function Note() {
-  const { noteId } = useParams();
-  const note = notes[noteId || ""];
-
+  const noteId = useRequiredParam("noteId");
   // State to hold the current title and content
-  const [title, setTitle] = useState<string>(note.title);
-  const [content, setContent] = useState<string>(note.content);
+  const [_remoteNote, setRemoteNote] = useState<NoteType>();
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
 
   // Update title and content
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -33,11 +23,28 @@ function Note() {
   };
 
   useEffect(() => {
-    if (note) {
-      setTitle(note.title);
-      setContent(note.content);
-    }
-  }, [note]);
+    // Fetch the note from the backend
+    getOneNoteApiV1NotesNoteIdGet({
+      client: backendFetchClient,
+      path: {
+        note_id: noteId,
+      },
+    })
+      .then(({ data, error }) => {
+        if (error) {
+          console.error("Error fetching note:", error);
+          return;
+        }
+        if (data) {
+          setRemoteNote(data);
+          setTitle(data.title);
+          setContent(data.content);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching note:", error);
+      });
+  }, [noteId]);
 
   return (
     <div className="note">

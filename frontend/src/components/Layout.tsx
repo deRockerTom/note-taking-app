@@ -2,14 +2,33 @@ import { Outlet, Link, useParams } from "react-router-dom";
 import noteTakingAppLogo from "/note-taking-logo.svg";
 import "./Layout.scss";
 import NoteList from "./NoteList/NoteList";
-
-const notes = [
-  { note_id: "1", title: "First Note", date: "2023-10-02" },
-  { note_id: "2", title: "Second Note", date: "2023-10-01" },
-];
+import { useEffect, useState } from "react";
+import { GetAllNotesResponse, getNotesApiV1NotesGet } from "../client";
+import { backendFetchClient } from "../shared/fetchClient";
 
 function Layout() {
   const { noteId } = useParams();
+
+  const [noteList, setNoteList] = useState<GetAllNotesResponse[]>([]);
+
+  useEffect(() => {
+    getNotesApiV1NotesGet({
+      client: backendFetchClient,
+    })
+      .then(({ data, error }) => {
+        if (error) {
+          console.error("Error fetching notes:", error);
+          return;
+        }
+        if (data) {
+          setNoteList(data.notes);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching notes:", error);
+      });
+  });
+
   return (
     <div className="layout">
       <div className="layout__sidebar">
@@ -22,7 +41,7 @@ function Layout() {
             />
           </div>
         </Link>
-        <NoteList notes={notes} activeNoteId={noteId} />
+        <NoteList notes={noteList} activeNoteId={noteId} />
       </div>
 
       <main className="layout__content">
