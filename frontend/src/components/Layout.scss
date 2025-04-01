@@ -12,6 +12,7 @@
     border-right: 1px solid var(--light-color-2);
 
     &__link {
+      overflow: hidden;
       border-bottom: 1px solid var(--light-color-2);
       &:hover {
         background: var(--light-color-2);
