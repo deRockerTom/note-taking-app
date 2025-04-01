@@ -10,6 +10,7 @@
     flex-direction: column;
     background: var(--light-color);
     border-right: 1px solid var(--light-color-2);
+    transition: width 0.3s ease-in-out;
 
     &__link {
       overflow: hidden;
@@ -27,6 +28,39 @@
         margin-left: auto;
         margin-right: auto;
       }
+    }
+
+    &__toggle-btn {
+      position: relative;
+      float: right;
+      left: 100%;
+      top: 2.5%;
+      width: 2rem;
+      height: 2rem;
+      margin-bottom: -2rem;
+      padding: 0.5rem;
+      border-radius: 50%;
+      background: var(--light-color);
+      transform: translateX(-50%);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--light-color-2);
+      outline: none;
+
+      &:focus,
+      &:hover {
+        border: 1px solid var(--light-color-2);
+        outline: none;
+      }
+      &:hover {
+        background: var(--light-color-2);
+      }
+    }
+
+    &--collapsed {
+      width: 2rem;
     }
   }
 

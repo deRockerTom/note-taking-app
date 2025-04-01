@@ -7,12 +7,14 @@ import { GetAllNotesResponse, getNotesApiV1NotesGet } from "../client";
 import { backendFetchClient } from "../shared/fetchClient";
 import CreateNote from "./CreateNote/CreateNote";
 import { LayoutContext } from "./Layout.helpers";
+import classNames from "classnames";
 
 function Layout() {
   const { noteId } = useParams();
   const navigate = useNavigate();
 
   const [noteList, setNoteList] = useState<GetAllNotesResponse[]>([]);
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 
   const refreshNoteList = useCallback(() => {
     getNotesApiV1NotesGet({
@@ -61,22 +63,37 @@ function Layout() {
 
   return (
     <div className="layout">
-      <div className="layout__sidebar">
-        <Link to="/">
-          <div className="layout__sidebar__link">
-            <img
-              src={noteTakingAppLogo}
-              className="layout__sidebar__link__logo"
-              alt="Note Taking App logo"
+      <div
+        className={classNames("layout__sidebar", {
+          "layout__sidebar--collapsed": isSidebarCollapsed,
+        })}
+      >
+        <button
+          className="layout__sidebar__toggle-btn"
+          onClick={() => setIsSidebarCollapsed((prev) => !prev)}
+          type="button"
+        >
+          {isSidebarCollapsed ? ">" : "<"}
+        </button>
+        {!isSidebarCollapsed && (
+          <>
+            <Link to="/">
+              <div className="layout__sidebar__link">
+                <img
+                  src={noteTakingAppLogo}
+                  className="layout__sidebar__link__logo"
+                  alt="Note Taking App logo"
+                />
+              </div>
+            </Link>
+            <CreateNote onCreate={refreshNoteList} />
+            <NoteList
+              notes={noteList}
+              activeNoteId={noteId}
+              onDelete={handleDeleteNote}
             />
-          </div>
-        </Link>
-        <CreateNote onCreate={refreshNoteList} />
-        <NoteList
-          notes={noteList}
-          activeNoteId={noteId}
-          onDelete={handleDeleteNote}
-        />
+          </>
+        )}
       </div>
 
       <main className="layout__content">
