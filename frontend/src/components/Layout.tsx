@@ -19,15 +19,10 @@ function Layout() {
   const refreshNoteList = useCallback(() => {
     getNotesApiV1NotesGet({
       client: backendFetchClient,
+      throwOnError: true,
     })
-      .then(({ data, error }) => {
-        if (error) {
-          console.error("Error fetching notes:", error);
-          return;
-        }
-        if (data) {
-          setNoteList(data.notes);
-        }
+      .then(({ data }) => {
+        setNoteList(data.notes);
       })
       .catch((error) => {
         console.error("Error fetching notes:", error);

@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { getOneNoteApiV1NotesNoteIdGet, Note as NoteType } from "@client";
 import { backendFetchClient } from "@shared/fetchClient";
 import { useRequiredParam } from "@hooks/useRequiredParam";
-import { unstable_usePrompt } from "react-router-dom";
+import { unstable_usePrompt, useNavigate } from "react-router-dom";
 import DeleteNote from "@components/DeleteNote/DeleteNote";
 import { useLayoutContext } from "@components/Layout.helpers";
 import SaveNote from "./components/SaveNote";
@@ -12,14 +12,15 @@ import "./Note.scss";
 function Note() {
   const noteId = useRequiredParam("noteId");
   const { handleDeleteNote } = useLayoutContext();
+  const navigate = useNavigate();
   // State to hold the current title and content
   const [remoteNote, setRemoteNote] = useState<NoteType>();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const isDeletingRef = useRef(false);
+  const byPassPromptOnChangeRef = useRef(false);
 
   const handleDeleteNoteClick = () => {
-    isDeletingRef.current = true;
+    byPassPromptOnChangeRef.current = true;
     handleDeleteNote(noteId);
   };
 
@@ -41,28 +42,27 @@ function Note() {
       path: {
         note_id: noteId,
       },
+      throwOnError: true,
     })
-      .then(({ data, error }) => {
-        if (error) {
-          console.error("Error fetching note:", error);
-          return;
-        }
-        if (data) {
-          setRemoteNote(data);
-          setTitle(data.title);
-          setContent(data.content);
-        }
+      .then(({ data }) => {
+        setRemoteNote(data);
+        setTitle(data.title);
+        setContent(data.content);
       })
       .catch((error) => {
         console.error("Error fetching note:", error);
+        byPassPromptOnChangeRef.current = true;
+        navigate("/")?.catch((error) => {
+          console.error("Error navigating to Home after fetching note:", error);
+        });
       });
-  }, [noteId]);
+  }, [navigate, noteId]);
 
   unstable_usePrompt({
     message:
       "Are you sure that you want to leave ? You have unsaved changes that will be lost if you leave.",
     when: () =>
-      !isDeletingRef.current &&
+      !byPassPromptOnChangeRef.current &&
       (title !== remoteNote?.title || content !== remoteNote?.content),
   });
 

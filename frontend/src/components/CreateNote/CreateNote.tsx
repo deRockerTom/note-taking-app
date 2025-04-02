@@ -23,20 +23,15 @@ function CreateNote({ onCreate }: CreateNoteProps) {
           title,
           content: "",
         },
+        throwOnError: true,
       })
-        .then(({ data, error }) => {
-          if (error) {
-            console.error("Error creating note:", error);
-            return;
-          }
-          if (data) {
-            setTitle("");
-            setIsEditing(false);
-            onCreate(title);
-            navigate(`/${data.note_id}`)?.catch((error) => {
-              console.error("Error navigating to new note:", error);
-            });
-          }
+        .then(({ data }) => {
+          setTitle("");
+          setIsEditing(false);
+          onCreate(title);
+          navigate(`/${data.note_id}`)?.catch((error) => {
+            console.error("Error navigating to new note:", error);
+          });
         })
         .catch((error) => {
           console.error("Error creating note:", error);

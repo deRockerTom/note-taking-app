@@ -27,16 +27,11 @@ function SaveNote({ noteId, disabled, title, content, onSave }: SaveNoteProps) {
       path: {
         note_id: noteId,
       },
+      throwOnError: true,
     })
-      .then(({ data, error }) => {
-        if (error) {
-          console.error("Error saving note:", error);
-          return;
-        }
-        if (data) {
-          refreshNoteList();
-          onSave();
-        }
+      .then(() => {
+        refreshNoteList();
+        onSave();
       })
       .catch((error) => {
         console.error("Error saving note:", error);

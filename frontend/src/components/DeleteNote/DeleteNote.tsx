@@ -24,16 +24,11 @@ function DeleteNote({ noteId, onDelete, className }: DeleteNoteProps) {
         path: {
           note_id: noteId,
         },
+        throwOnError: true,
       })
-        .then(({ data, error }) => {
-          if (error) {
-            console.error("Error deleting note:", error);
-            return;
-          }
-          if (data) {
-            if (onDelete) {
-              onDelete(noteId);
-            }
+        .then(() => {
+          if (onDelete) {
+            onDelete(noteId);
           }
         })
         .catch((error) => {
