@@ -1,7 +1,7 @@
 import { MouseEventHandler } from "react";
-import VersionHistory from "../../../assets/VersionHistory.svg?react";
+import VersionHistory from "@assets/VersionHistory.svg?react";
+import SVGButton from "@components/SVGButton/SVGButton";
 import "./VersionControlButton.scss";
-import SVGButton from "../../../components/SVGButton/SVGButton";
 
 interface VersionControlButtonProps {
   onClick: MouseEventHandler<HTMLButtonElement>;

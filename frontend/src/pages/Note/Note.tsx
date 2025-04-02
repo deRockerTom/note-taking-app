@@ -1,13 +1,13 @@
 import { useEffect, useRef, useState } from "react";
-import { getOneNoteApiV1NotesNoteIdGet, Note as NoteType } from "../../client";
-import { backendFetchClient } from "../../shared/fetchClient";
-import { useRequiredParam } from "../../hooks/useRequiredParam";
+import { getOneNoteApiV1NotesNoteIdGet, Note as NoteType } from "@client";
+import { backendFetchClient } from "@shared/fetchClient";
+import { useRequiredParam } from "@hooks/useRequiredParam";
 import { unstable_usePrompt } from "react-router-dom";
-import DeleteNote from "../../components/DeleteNote/DeleteNote";
-import { useLayoutContext } from "../../components/Layout.helpers";
-import "./Note.scss";
+import DeleteNote from "@components/DeleteNote/DeleteNote";
+import { useLayoutContext } from "@components/Layout.helpers";
 import SaveNote from "./components/SaveNote";
 import VersionControlButton from "./components/VersionControlButton";
+import "./Note.scss";
 
 function Note() {
   const noteId = useRequiredParam("noteId");

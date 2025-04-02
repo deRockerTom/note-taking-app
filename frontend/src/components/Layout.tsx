@@ -1,13 +1,13 @@
 import { Outlet, Link, useParams, useNavigate } from "react-router-dom";
 import noteTakingAppLogo from "/note-taking-logo.svg";
-import "./Layout.scss";
 import NoteList from "./NoteList/NoteList";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { GetAllNotesResponse, getNotesApiV1NotesGet } from "../client";
-import { backendFetchClient } from "../shared/fetchClient";
+import { GetAllNotesResponse, getNotesApiV1NotesGet } from "@client";
+import { backendFetchClient } from "@shared/fetchClient";
 import CreateNote from "./CreateNote/CreateNote";
 import { LayoutContext } from "./Layout.helpers";
 import classNames from "classnames";
+import "./Layout.scss";
 
 function Layout() {
   const { noteId } = useParams();

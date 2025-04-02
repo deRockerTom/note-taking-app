@@ -1,6 +1,6 @@
-import { updateOneNoteApiV1NotesNoteIdPut } from "../../../client";
-import { useLayoutContext } from "../../../components/Layout.helpers";
-import { backendFetchClient } from "../../../shared/fetchClient";
+import { updateOneNoteApiV1NotesNoteIdPut } from "@client";
+import { useLayoutContext } from "@components/Layout.helpers";
+import { backendFetchClient } from "@shared/fetchClient";
 
 import "./SaveNote.scss";
 

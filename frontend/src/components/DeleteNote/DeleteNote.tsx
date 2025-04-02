@@ -1,7 +1,7 @@
-import TrashCanIcon from "../../assets/TrashCan.svg?react";
-import { deleteOneNoteApiV1NotesNoteIdDelete } from "../../client";
-import { backendFetchClient } from "../../shared/fetchClient";
-import SVGButton from "../SVGButton/SVGButton";
+import TrashCanIcon from "@assets/TrashCan.svg?react";
+import { deleteOneNoteApiV1NotesNoteIdDelete } from "@client";
+import { backendFetchClient } from "@shared/fetchClient";
+import SVGButton from "@components/SVGButton/SVGButton";
 import "./DeleteNote.scss";
 
 interface DeleteNoteProps {

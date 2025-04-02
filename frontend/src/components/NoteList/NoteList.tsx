@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
-import { GetAllNotesResponse } from "../../client";
-import "./NoteList.scss";
+import { GetAllNotesResponse } from "@client";
 import classNames from "classnames";
-import DeleteNote from "../DeleteNote/DeleteNote";
+import DeleteNote from "@components/DeleteNote/DeleteNote";
+import "./NoteList.scss";
 
 interface NoteListProps {
   notes: GetAllNotesResponse[];

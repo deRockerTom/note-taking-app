@@ -1,9 +1,9 @@
 import { Fragment, useEffect, useState } from "react";
-import { createOneNoteApiV1NotesPost } from "../../client";
+import { createOneNoteApiV1NotesPost } from "@client";
 
-import "./CreateNote.scss";
-import { backendFetchClient } from "../../shared/fetchClient";
+import { backendFetchClient } from "@shared/fetchClient";
 import { useNavigate } from "react-router-dom";
+import "./CreateNote.scss";
 
 interface CreateNoteProps {
   onCreate: (title: string) => void;
