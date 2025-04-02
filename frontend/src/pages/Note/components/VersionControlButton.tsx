@@ -1,20 +1,18 @@
 import { MouseEventHandler } from "react";
 import VersionHistory from "../../../assets/VersionHistory.svg?react";
 import "./VersionControlButton.scss";
+import SVGButton from "../../../components/SVGButton/SVGButton";
 
 interface VersionControlButtonProps {
   onClick: MouseEventHandler<HTMLButtonElement>;
 }
 function VersionControlButton({ onClick }: VersionControlButtonProps) {
   return (
-    <button
-      className="version-control-button"
+    <SVGButton
       onClick={onClick}
-      title="Version Control"
-      type="button"
-    >
-      <VersionHistory className="version-control-button__icon" />
-    </button>
+      classNames={["version-control-button"]}
+      SVGIcon={VersionHistory}
+    />
   );
 }
 

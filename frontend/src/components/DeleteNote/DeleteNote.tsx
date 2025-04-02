@@ -1,7 +1,7 @@
-import classNames from "classnames";
 import TrashCanIcon from "../../assets/TrashCan.svg?react";
 import { deleteOneNoteApiV1NotesNoteIdDelete } from "../../client";
 import { backendFetchClient } from "../../shared/fetchClient";
+import SVGButton from "../SVGButton/SVGButton";
 import "./DeleteNote.scss";
 
 interface DeleteNoteProps {
@@ -45,14 +45,11 @@ function DeleteNote({ noteId, onDelete, className }: DeleteNoteProps) {
   };
 
   return (
-    <button
-      className={classNames("delete-note", className)}
+    <SVGButton
+      classNames={["delete-note", className]}
       onClick={handleDelete}
-      title="Delete Note"
-      type="button"
-    >
-      <TrashCanIcon className="delete-note__icon" />
-    </button>
+      SVGIcon={TrashCanIcon}
+    />
   );
 }
 
