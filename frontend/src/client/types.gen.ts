@@ -22,6 +22,19 @@ export type GetAllNotesResponse = {
     date: string;
 };
 
+export type GetNoteVersionApiResponse = {
+    notes: Array<GetNoteVersionResponse>;
+};
+
+/**
+ * Response model for getting a note version.
+ */
+export type GetNoteVersionResponse = {
+    note_id: string;
+    version: number;
+    date: string;
+};
+
 export type HttpValidationError = {
     detail?: Array<ValidationError>;
 };
@@ -204,6 +217,61 @@ export type UpdateOneNoteApiV1NotesNoteIdPutResponses = {
 };
 
 export type UpdateOneNoteApiV1NotesNoteIdPutResponse = UpdateOneNoteApiV1NotesNoteIdPutResponses[keyof UpdateOneNoteApiV1NotesNoteIdPutResponses];
+
+export type GetNoteVersionsApiV1NotesNoteIdVersionsGetData = {
+    body?: never;
+    path: {
+        note_id: string;
+    };
+    query?: never;
+    url: '/api/v1/notes/{note_id}/versions';
+};
+
+export type GetNoteVersionsApiV1NotesNoteIdVersionsGetErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type GetNoteVersionsApiV1NotesNoteIdVersionsGetError = GetNoteVersionsApiV1NotesNoteIdVersionsGetErrors[keyof GetNoteVersionsApiV1NotesNoteIdVersionsGetErrors];
+
+export type GetNoteVersionsApiV1NotesNoteIdVersionsGetResponses = {
+    /**
+     * Successful Response
+     */
+    200: GetNoteVersionApiResponse;
+};
+
+export type GetNoteVersionsApiV1NotesNoteIdVersionsGetResponse = GetNoteVersionsApiV1NotesNoteIdVersionsGetResponses[keyof GetNoteVersionsApiV1NotesNoteIdVersionsGetResponses];
+
+export type GetOneNoteWithVersionApiV1NotesNoteIdVersionsVersionGetData = {
+    body?: never;
+    path: {
+        note_id: string;
+        version: number;
+    };
+    query?: never;
+    url: '/api/v1/notes/{note_id}/versions/{version}';
+};
+
+export type GetOneNoteWithVersionApiV1NotesNoteIdVersionsVersionGetErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type GetOneNoteWithVersionApiV1NotesNoteIdVersionsVersionGetError = GetOneNoteWithVersionApiV1NotesNoteIdVersionsVersionGetErrors[keyof GetOneNoteWithVersionApiV1NotesNoteIdVersionsVersionGetErrors];
+
+export type GetOneNoteWithVersionApiV1NotesNoteIdVersionsVersionGetResponses = {
+    /**
+     * Successful Response
+     */
+    200: Note;
+};
+
+export type GetOneNoteWithVersionApiV1NotesNoteIdVersionsVersionGetResponse = GetOneNoteWithVersionApiV1NotesNoteIdVersionsVersionGetResponses[keyof GetOneNoteWithVersionApiV1NotesNoteIdVersionsVersionGetResponses];
 
 export type RollbackOneNoteApiV1NotesNoteIdRollbackPostData = {
     body: RollbackNoteApiRequest;
