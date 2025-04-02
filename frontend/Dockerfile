@@ -28,4 +28,7 @@ WORKDIR /usr/share/nginx/html
 # Copy only the built files from the builder stage
 COPY --from=builder /frontend/dist /usr/share/nginx/html
 
+# Copy custom Nginx config
+COPY ./frontend/nginx/nginx.conf /etc/nginx/conf.d/default.conf
+
 CMD ["nginx", "-g", "daemon off;"]
