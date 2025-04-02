@@ -110,6 +110,48 @@ class TestGetNote:
             get_note(note_id=invalid_note_id)
         assert e.value.status_code == 404
 
+    def test_get_note_should_retried_last_version_default(self):
+        title = "Test Note"
+        content = "This is a test note."
+        created_note = create_note(title=title, content=content)
+
+        title_2 = "Test Note 2"
+        content_2 = "This is a test note 2."
+        updated_note = update_note(
+            note_id=created_note.note_id,
+            title=title_2,
+            content=content_2,
+        )
+        retrieved_note = get_note(note_id=created_note.note_id)
+        assert retrieved_note == updated_note
+
+    def test_get_note_with_version_should_retrieve_version(self):
+        title = "Test Note"
+        content = "This is a test note."
+        created_note = create_note(title=title, content=content)
+
+        update_content = "This is an updated test note."
+        updated_note = update_note(
+            note_id=created_note.note_id,
+            title=title,
+            content=update_content,
+        )
+
+        retrieved_note = get_note(note_id=created_note.note_id, version=0)
+        assert retrieved_note == created_note
+
+        retrieved_note = get_note(note_id=created_note.note_id, version=1)
+        assert retrieved_note == updated_note
+
+    def test_get_note_with_unknown_version_should_raise_error(self):
+        title = "Test Note"
+        content = "This is a test note."
+        created_note = create_note(title=title, content=content)
+
+        with pytest.raises(BackException) as e:
+            get_note(note_id=created_note.note_id, version=3)
+        assert e.value.status_code == 404
+
 
 class TestGetNoteVersionList:
     def test_get_note_version_list_with_valid_note_id(self):

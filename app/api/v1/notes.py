@@ -55,6 +55,16 @@ async def get_note_versions(note_id: str):
     )
 
 
+@notes_router.get("/{note_id}/versions/{version}", response_model=Note)
+async def get_one_note_with_version(note_id: str, version: int):
+    """
+    Get a specific version of a note by ID and version number.
+    """
+    note = get_note(note_id, version)
+
+    return note
+
+
 @notes_router.post("/", response_model=Note)
 async def create_one_note(create_note_request: CreateNoteAPIRequest):
     """

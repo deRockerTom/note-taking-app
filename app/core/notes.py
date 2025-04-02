@@ -70,12 +70,19 @@ def get_all_notes():
     return notes
 
 
-def get_note(note_id: str):
+def get_note(note_id: str, version: int | None = None):
     """
     Get the last version of a note.
     """
     notes = list(
-        note_collection.find({"note_id": note_id}).sort("version", DESCENDING).limit(1)
+        note_collection.find(
+            {
+                "note_id": note_id,
+                "version": version if version is not None else {"$exists": True},
+            },
+        )
+        .sort("version", DESCENDING)
+        .limit(1)
     )
     if not notes:
         raise BackException("Note not found", 404)

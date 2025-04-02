@@ -83,6 +83,28 @@ class TestGetNoteVersions:
         mock_get_note_version_list.assert_called_once_with("1")
 
 
+class TestGetNoteWithVersion:
+    @patch("api.v1.notes.get_note")
+    def test_get_note_with_version(self, mock_get_note: Mock):
+        mock_get_note.return_value = Note(
+            title="Test Note",
+            content="This is a test note.",
+            note_id="1",
+            version=1,
+            date=datetime.now(),
+        )
+        response = client.get("/1/versions/1")
+        assert response.status_code == 200
+        assert response.json() == {
+            "note_id": "1",
+            "title": "Test Note",
+            "date": mock_get_note.return_value.date.isoformat(),
+            "content": "This is a test note.",
+            "version": 1,
+        }
+        mock_get_note.assert_called_once_with("1", 1)
+
+
 class TestCreateOneNote:
     @patch("api.v1.notes.create_note")
     def test_create_one_note(self, mock_create_note: Mock):
