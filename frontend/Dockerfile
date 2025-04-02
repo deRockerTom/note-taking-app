@@ -1,27 +1,31 @@
-FROM oven/bun:${BUN_VERSION:-1.2.7}
+# --- Build Stage ---
+FROM oven/bun:${BUN_VERSION:-1.2.7} AS builder
 
 ARG VITE_BACKEND_URL
 ENV VITE_BACKEND_URL=${VITE_BACKEND_URL}
 ENV NODE_ENV=production
 
-
 WORKDIR /frontend
 
+# Copy package files first for caching dependencies
 COPY ./frontend/bun.lock /frontend/bun.lock
 COPY ./frontend/package.json /frontend/package.json
-COPY ./frontend/tsconfig.json /frontend/tsconfig.json
-COPY ./frontend/tsconfig.app.json /frontend/tsconfig.app.json
-COPY ./frontend/tsconfig.node.json /frontend/tsconfig.node.json
 
-
+# Install dependencies
 RUN bun install --frozen-lockfile
 
-RUN bun i -g serve
-
+# Copy the rest of the frontend code
 COPY ./frontend /frontend
 
+# Build the frontend
 RUN bun run build
 
-EXPOSE 3000
+# --- Serve Stage (Final Image)---
+FROM nginx:alpine
 
-CMD ["serve", "-l", "3000", "dist"]
+WORKDIR /usr/share/nginx/html
+
+# Copy only the built files from the builder stage
+COPY --from=builder /frontend/dist /usr/share/nginx/html
+
+CMD ["nginx", "-g", "daemon off;"]
