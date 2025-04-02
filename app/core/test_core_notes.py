@@ -11,7 +11,6 @@ from core.notes import (
     get_all_notes,
     get_note,
     get_note_version_list,
-    note_collection,
     rollback_note,
     update_note,
 )
@@ -21,7 +20,7 @@ from pydantic import ValidationError
 TEST_DB = {"MONGO_DB": "core-test-notes"}
 
 
-@pytest.fixture(scope="function", autouse=True)
+@pytest.fixture(scope="session", autouse=True)
 def patch_env_and_reload_modules():
     """
     Fixture to patch the environment variables and reload relevant modules.
@@ -29,17 +28,21 @@ def patch_env_and_reload_modules():
     """
     # Patch the environment variable with the test DB name
     with patch.dict(os.environ, TEST_DB):
+        import core.notes
         import database
         import env
 
         # Reload to ensure the new environment variable is used
         importlib.reload(env)
         importlib.reload(database)
+        importlib.reload(core.notes)
         yield  # this will allow the tests to run
 
 
 @pytest.fixture(scope="function", autouse=True)
 def clear_db():
+    from core.notes import note_collection
+
     note_collection.delete_many({})
     yield
 

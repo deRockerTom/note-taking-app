@@ -3,7 +3,6 @@ import os
 from unittest.mock import patch
 
 import pytest
-from core.notes import note_collection
 from fastapi.testclient import TestClient
 from main import app
 
@@ -12,7 +11,7 @@ TEST_DB = {"MONGO_DB": "integration-test-notes"}
 client = TestClient(app)
 
 
-@pytest.fixture(scope="function", autouse=True)
+@pytest.fixture(scope="session", autouse=True)
 def patch_env_and_reload_modules():
     """
     Fixture to patch the environment variables and reload relevant modules.
@@ -31,6 +30,8 @@ def patch_env_and_reload_modules():
 
 @pytest.fixture(scope="function", autouse=True)
 def clear_db():
+    from core.notes import note_collection
+
     note_collection.delete_many({})
     yield
 
