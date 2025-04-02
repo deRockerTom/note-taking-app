@@ -1,10 +1,10 @@
 import { useRequiredParam } from "@hooks/useRequiredParam";
 import { unstable_usePrompt } from "react-router-dom";
 import { useLayoutContext } from "@components/Layout.helpers";
-import "./Note.scss";
-import classNames from "classnames";
 import useNote from "./hooks/useNote";
 import EditableNote from "./components/EditableNote";
+import VersionSidebar from "./components/VersionSidebar";
+import "./Note.scss";
 
 const versions = [
   {
@@ -75,36 +75,14 @@ function Note() {
         onVersionControlClick={handleVersionControlClick}
         onSaveNoteClick={refreshLastRemoteNote}
       />
-      <div
-        className={classNames("note__sidebar", {
-          "note__sidebar--collapsed": !isVersionControlVisible,
-        })}
-      >
-        {isVersionControlVisible && (
-          <>
-            <div className="note__sidebar__title">Versions</div>
-            <div className="note__sidebar__version-list">
-              {versions.map((version) => (
-                <span
-                  key={version.version}
-                  className={classNames("note__sidebar__version-list__item", {
-                    "note__sidebar__version-list__item--active":
-                      version.version === selectedVersion,
-                  })}
-                  onClick={() => {
-                    console.log("Version Clicked", version.version);
-                  }}
-                >
-                  {new Date(version.date).toLocaleDateString(undefined, {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  })}
-                </span>
-              ))}
-            </div>
-          </>
-        )}
-      </div>
+      <VersionSidebar
+        versions={versions}
+        selectedVersion={selectedVersion}
+        isVersionControlVisible={isVersionControlVisible}
+        onVersionSelect={(version) => {
+          console.log("Version Clicked", version.version);
+        }}
+      />
     </div>
   );
 }
