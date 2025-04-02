@@ -6,29 +6,6 @@ import EditableNote from "./components/EditableNote";
 import VersionSidebar from "./components/VersionSidebar";
 import "./Note.scss";
 
-const versions = [
-  {
-    date: new Date().toISOString(),
-    version: 3,
-    note_id: "1",
-  },
-  {
-    date: new Date(Date.now() - 1000 * 60 * 60 * 24).toISOString(),
-    version: 2,
-    note_id: "1",
-  },
-  {
-    date: new Date(Date.now() - 1000 * 60 * 60 * 24 * 2).toISOString(),
-    version: 1,
-    note_id: "1",
-  },
-  {
-    date: new Date(Date.now() - 1000 * 60 * 60 * 24 * 3).toISOString(),
-    version: 0,
-    note_id: "1",
-  },
-];
-
 function Note() {
   const noteId = useRequiredParam("noteId");
   const { handleDeleteNote } = useLayoutContext();
@@ -38,10 +15,12 @@ function Note() {
     selectedVersion,
     title,
     content,
+    versions,
     byPassPromptOnChangeRef,
     handleContentChange,
     handleTitleChange,
     handleVersionControlClick,
+    handleVersionClick,
     refreshLastRemoteNote,
   } = useNote({
     noteId,
@@ -79,9 +58,7 @@ function Note() {
         versions={versions}
         selectedVersion={selectedVersion}
         isVersionControlVisible={isVersionControlVisible}
-        onVersionSelect={(version) => {
-          console.log("Version Clicked", version.version);
-        }}
+        onVersionSelect={handleVersionClick}
       />
     </div>
   );

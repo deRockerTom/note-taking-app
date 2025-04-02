@@ -1,4 +1,6 @@
 import {
+  GetNoteVersionResponse,
+  getNoteVersionsApiV1NotesNoteIdVersionsGet,
   getOneNoteApiV1NotesNoteIdGet,
   getOneNoteWithVersionApiV1NotesNoteIdVersionsVersionGet,
   Note,
@@ -17,6 +19,7 @@ function useNote({ noteId }: useNoteProps) {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [selectedVersion, setSelectedVersion] = useState(0);
+  const [versions, setVersions] = useState<GetNoteVersionResponse[]>([]);
   const byPassPromptOnChangeRef = useRef(false);
 
   const navigate = useNavigate();
@@ -29,6 +32,10 @@ function useNote({ noteId }: useNoteProps) {
     event: React.ChangeEvent<HTMLTextAreaElement>,
   ) => {
     setContent(event.target.value);
+  };
+
+  const handleVersionClick = (version: GetNoteVersionResponse) => {
+    setSelectedVersion(version.version);
   };
 
   const refreshLastRemoteNote = useCallback(() => {
@@ -50,6 +57,27 @@ function useNote({ noteId }: useNoteProps) {
         byPassPromptOnChangeRef.current = true;
         navigate("/")?.catch((error) => {
           console.error("Error navigating to Home after fetching note:", error);
+        });
+      });
+
+    getNoteVersionsApiV1NotesNoteIdVersionsGet({
+      client: backendFetchClient,
+      path: {
+        note_id: noteId,
+      },
+      throwOnError: true,
+    })
+      .then(({ data }) => {
+        setVersions(data.notes);
+      })
+      .catch((error) => {
+        console.error("Error fetching note versions:", error);
+        byPassPromptOnChangeRef.current = true;
+        navigate("/")?.catch((error) => {
+          console.error(
+            "Error navigating to Home after fetching note versions:",
+            error,
+          );
         });
       });
   }, [navigate, noteId]);
@@ -90,10 +118,12 @@ function useNote({ noteId }: useNoteProps) {
     selectedVersion,
     title,
     content,
+    versions,
     byPassPromptOnChangeRef,
     handleContentChange,
     handleTitleChange,
     handleVersionControlClick,
+    handleVersionClick,
     refreshRemoteNoteVersion,
     refreshLastRemoteNote,
   };
