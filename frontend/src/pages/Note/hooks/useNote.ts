@@ -4,6 +4,7 @@ import {
   getOneNoteApiV1NotesNoteIdGet,
   getOneNoteWithVersionApiV1NotesNoteIdVersionsVersionGet,
   Note,
+  rollbackOneNoteApiV1NotesNoteIdRollbackPost,
 } from "@client";
 import { backendFetchClient } from "@shared/fetchClient";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -21,6 +22,7 @@ function useNote({ noteId }: useNoteProps) {
   const [selectedVersion, setSelectedVersion] = useState(0);
   const [versions, setVersions] = useState<GetNoteVersionResponse[]>([]);
   const byPassPromptOnChangeRef = useRef(false);
+  const isLastVersion = selectedVersion === versions.at(0)?.version;
 
   const navigate = useNavigate();
 
@@ -32,10 +34,6 @@ function useNote({ noteId }: useNoteProps) {
     event: React.ChangeEvent<HTMLTextAreaElement>,
   ) => {
     setContent(event.target.value);
-  };
-
-  const handleVersionClick = (version: GetNoteVersionResponse) => {
-    setSelectedVersion(version.version);
   };
 
   const refreshLastRemoteNote = useCallback(() => {
@@ -103,9 +101,37 @@ function useNote({ noteId }: useNoteProps) {
     [noteId],
   );
 
+  const handleVersionClick = (version: GetNoteVersionResponse) => {
+    refreshRemoteNoteVersion(version.version);
+  };
+
   const handleVersionControlClick = () => {
     console.log("Version control clicked");
     setIsVersionControlVisible((prev) => !prev);
+  };
+
+  const handleRevertToVersionClick = (version: number) => {
+    const confirmationResponse = confirm(
+      "Are you sure you want to delete this note? This action cannot be undone.",
+    );
+    if (!confirmationResponse) {
+      return;
+    }
+    rollbackOneNoteApiV1NotesNoteIdRollbackPost({
+      client: backendFetchClient,
+      path: {
+        note_id: noteId,
+      },
+      body: {
+        version: version,
+      },
+    })
+      .then(() => {
+        refreshLastRemoteNote();
+      })
+      .catch((error) => {
+        console.error("Error reverting to version:", error);
+      });
   };
 
   useEffect(() => {
@@ -120,10 +146,12 @@ function useNote({ noteId }: useNoteProps) {
     content,
     versions,
     byPassPromptOnChangeRef,
+    isLastVersion,
     handleContentChange,
     handleTitleChange,
     handleVersionControlClick,
     handleVersionClick,
+    handleRevertToVersionClick,
     refreshRemoteNoteVersion,
     refreshLastRemoteNote,
   };

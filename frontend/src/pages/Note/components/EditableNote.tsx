@@ -36,12 +36,12 @@ function EditableNote({
           className="editable-note__header__title"
           placeholder="Note Title"
         />
-        <VersionControlButton onClick={onVersionControlClick} />
         <DeleteNote
           noteId={noteId}
           className="editable-note__header__trash-can"
           onDelete={onDeleteNoteClick}
         />
+        <VersionControlButton onClick={onVersionControlClick} />
       </div>
       <textarea
         value={content}

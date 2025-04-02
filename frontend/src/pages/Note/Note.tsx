@@ -2,9 +2,9 @@ import { useRequiredParam } from "@hooks/useRequiredParam";
 import { unstable_usePrompt } from "react-router-dom";
 import { useLayoutContext } from "@components/Layout.helpers";
 import useNote from "./hooks/useNote";
-import EditableNote from "./components/EditableNote";
 import VersionSidebar from "./components/VersionSidebar";
 import "./Note.scss";
+import NoteContent from "./components/NoteContent";
 
 function Note() {
   const noteId = useRequiredParam("noteId");
@@ -17,10 +17,12 @@ function Note() {
     content,
     versions,
     byPassPromptOnChangeRef,
+    isLastVersion,
     handleContentChange,
     handleTitleChange,
     handleVersionControlClick,
     handleVersionClick,
+    handleRevertToVersionClick,
     refreshLastRemoteNote,
   } = useNote({
     noteId,
@@ -41,25 +43,34 @@ function Note() {
 
   return (
     <div className="note">
-      <EditableNote
-        content={content}
-        title={title}
-        noteId={noteId}
-        isSaveDisabled={
-          title === remoteNote?.title && content === remoteNote?.content
-        }
-        onTitleChange={handleTitleChange}
-        onContentChange={handleContentChange}
-        onDeleteNoteClick={handleDeleteNoteClick}
-        onVersionControlClick={handleVersionControlClick}
-        onSaveNoteClick={refreshLastRemoteNote}
-      />
-      <VersionSidebar
-        versions={versions}
-        selectedVersion={selectedVersion}
-        isVersionControlVisible={isVersionControlVisible}
-        onVersionSelect={handleVersionClick}
-      />
+      {remoteNote && (
+        <>
+          <NoteContent
+            content={content}
+            title={title}
+            noteId={noteId}
+            isSaveDisabled={
+              title === remoteNote?.title && content === remoteNote?.content
+            }
+            remoteNote={remoteNote}
+            onTitleChange={handleTitleChange}
+            onContentChange={handleContentChange}
+            onDeleteNoteClick={handleDeleteNoteClick}
+            onVersionControlClick={handleVersionControlClick}
+            onRevertToVersion={() =>
+              handleRevertToVersionClick(selectedVersion)
+            }
+            onSaveNoteClick={refreshLastRemoteNote}
+            isLastVersion={isLastVersion}
+          />
+          <VersionSidebar
+            versions={versions}
+            selectedVersion={selectedVersion}
+            isVersionControlVisible={isVersionControlVisible}
+            onVersionSelect={handleVersionClick}
+          />
+        </>
+      )}
     </div>
   );
 }

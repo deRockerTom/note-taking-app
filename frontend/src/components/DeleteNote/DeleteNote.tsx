@@ -12,31 +12,27 @@ interface DeleteNoteProps {
 
 function DeleteNote({ noteId, onDelete, className }: DeleteNoteProps) {
   const handleDelete = () => {
-    try {
-      const confirmationResponse = confirm(
-        "Are you sure you want to delete this note? This action cannot be undone.",
-      );
-      if (!confirmationResponse) {
-        return;
-      }
-      deleteOneNoteApiV1NotesNoteIdDelete({
-        client: backendFetchClient,
-        path: {
-          note_id: noteId,
-        },
-        throwOnError: true,
-      })
-        .then(() => {
-          if (onDelete) {
-            onDelete(noteId);
-          }
-        })
-        .catch((error) => {
-          console.error("Error deleting note:", error);
-        });
-    } catch (error) {
-      console.error("Error deleting note:", error);
+    const confirmationResponse = confirm(
+      "Are you sure you want to delete this note? This action cannot be undone.",
+    );
+    if (!confirmationResponse) {
+      return;
     }
+    deleteOneNoteApiV1NotesNoteIdDelete({
+      client: backendFetchClient,
+      path: {
+        note_id: noteId,
+      },
+      throwOnError: true,
+    })
+      .then(() => {
+        if (onDelete) {
+          onDelete(noteId);
+        }
+      })
+      .catch((error) => {
+        console.error("Error deleting note:", error);
+      });
   };
 
   return (
