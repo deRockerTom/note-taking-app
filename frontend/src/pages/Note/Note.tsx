@@ -7,6 +7,7 @@ import DeleteNote from "../../components/DeleteNote/DeleteNote";
 import { useLayoutContext } from "../../components/Layout.helpers";
 import "./Note.scss";
 import SaveNote from "./components/SaveNote";
+import VersionControlButton from "./components/VersionControlButton";
 
 function Note() {
   const noteId = useRequiredParam("noteId");
@@ -74,6 +75,11 @@ function Note() {
           onChange={handleTitleChange}
           className="note__header__title"
           placeholder="Note Title"
+        />
+        <VersionControlButton
+          onClick={() => {
+            console.log("Version Control Clicked");
+          }}
         />
         <DeleteNote
           noteId={noteId}
