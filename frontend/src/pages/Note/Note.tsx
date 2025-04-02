@@ -1,14 +1,12 @@
-import { useEffect, useRef, useState } from "react";
-import { getOneNoteApiV1NotesNoteIdGet, Note as NoteType } from "@client";
-import { backendFetchClient } from "@shared/fetchClient";
 import { useRequiredParam } from "@hooks/useRequiredParam";
-import { unstable_usePrompt, useNavigate } from "react-router-dom";
+import { unstable_usePrompt } from "react-router-dom";
 import DeleteNote from "@components/DeleteNote/DeleteNote";
 import { useLayoutContext } from "@components/Layout.helpers";
 import SaveNote from "./components/SaveNote";
 import VersionControlButton from "./components/VersionControlButton";
 import "./Note.scss";
 import classNames from "classnames";
+import useNote from "./hooks/useNote";
 
 const versions = [
   {
@@ -36,53 +34,25 @@ const versions = [
 function Note() {
   const noteId = useRequiredParam("noteId");
   const { handleDeleteNote } = useLayoutContext();
-  const navigate = useNavigate();
-  // State to hold the current title and content
-  const [remoteNote, setRemoteNote] = useState<NoteType>();
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-  const byPassPromptOnChangeRef = useRef(false);
-  const [isVersionControlVisible, setIsVersionControlVisible] = useState(false);
-  const [selectedVersion, setSelectedVersion] = useState(0);
+  const {
+    remoteNote,
+    isVersionControlVisible,
+    selectedVersion,
+    title,
+    content,
+    byPassPromptOnChangeRef,
+    handleContentChange,
+    handleTitleChange,
+    setRemoteNote,
+    setIsVersionControlVisible,
+  } = useNote({
+    noteId,
+  });
 
   const handleDeleteNoteClick = () => {
     byPassPromptOnChangeRef.current = true;
     handleDeleteNote(noteId);
   };
-
-  // Update title and content
-  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value);
-  };
-
-  const handleContentChange = (
-    event: React.ChangeEvent<HTMLTextAreaElement>,
-  ) => {
-    setContent(event.target.value);
-  };
-
-  useEffect(() => {
-    // Fetch the note from the backend
-    getOneNoteApiV1NotesNoteIdGet({
-      client: backendFetchClient,
-      path: {
-        note_id: noteId,
-      },
-      throwOnError: true,
-    })
-      .then(({ data }) => {
-        setRemoteNote(data);
-        setTitle(data.title);
-        setContent(data.content);
-      })
-      .catch((error) => {
-        console.error("Error fetching note:", error);
-        byPassPromptOnChangeRef.current = true;
-        navigate("/")?.catch((error) => {
-          console.error("Error navigating to Home after fetching note:", error);
-        });
-      });
-  }, [navigate, noteId]);
 
   unstable_usePrompt({
     message:
@@ -162,7 +132,6 @@ function Note() {
                   })}
                   onClick={() => {
                     console.log("Version Clicked", version.version);
-                    setSelectedVersion(version.version);
                   }}
                 >
                   {new Date(version.date).toLocaleDateString(undefined, {
