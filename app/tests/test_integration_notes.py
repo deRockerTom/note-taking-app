@@ -79,6 +79,38 @@ class TestGetOneNote:
         assert response.json() == {"detail": "Note not found"}
 
 
+class TestGetNoteVersions:
+    def test_get_note_versions(self):
+        # First, create a note
+        response = client.post(
+            "/api/v1/notes/",
+            json={"title": "Test Note", "content": "This is a test note."},
+        )
+        assert response.status_code == 200
+
+        all_notes = client.get("/api/v1/notes/")
+        note_id = all_notes.json()["notes"][0]["note_id"]
+
+        # Now, update the note
+        response = client.put(
+            f"/api/v1/notes/{note_id}",
+            json={
+                "title": "Updated Test Note",
+                "content": "This is an updated test note.",
+            },
+        )
+        assert response.status_code == 200
+
+        # Now, get the note versions
+        response = client.get(f"/api/v1/notes/{note_id}/versions")
+        assert response.status_code == 200
+        assert len(response.json()["notes"]) == 2
+        assert response.json()["notes"][0]["note_id"] == note_id
+        assert response.json()["notes"][0]["version"] == 1
+        assert response.json()["notes"][1]["note_id"] == note_id
+        assert response.json()["notes"][1]["version"] == 0
+
+
 class TestCreateOneNote:
     def test_create_one_note(self):
         response = client.post(

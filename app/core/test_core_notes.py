@@ -10,6 +10,7 @@ from core.notes import (
     delete_note,
     get_all_notes,
     get_note,
+    get_note_version_list,
     note_collection,
     rollback_note,
     update_note,
@@ -108,6 +109,26 @@ class TestGetNote:
         with pytest.raises(BackException) as e:
             get_note(note_id=invalid_note_id)
         assert e.value.status_code == 404
+
+
+class TestGetNoteVersionList:
+    def test_get_note_version_list_with_valid_note_id(self):
+        title = "Test Note"
+        content = "This is a test note."
+        created_note = create_note(title=title, content=content)
+
+        update_content = "This is an updated test note."
+        updated_note = update_note(
+            note_id=created_note.note_id,
+            title=title,
+            content=update_content,
+        )
+
+        retrieved_note_versions = get_note_version_list(updated_note.note_id)
+        assert len(retrieved_note_versions) == 2
+        assert retrieved_note_versions[0].note_id == created_note.note_id
+        assert retrieved_note_versions[0].version == updated_note.version
+        assert retrieved_note_versions[1].version == created_note.version
 
 
 class TestUpdateNote:

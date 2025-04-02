@@ -1,6 +1,6 @@
 from typing import List
 
-from core.notes import GetAllNotesResponse, Note
+from core.notes import GetAllNotesResponse, GetNoteVersionResponse, Note
 from pydantic import BaseModel
 
 
@@ -10,6 +10,10 @@ class GetAllNotesAPIResponse(BaseModel):
 
 class GetNoteAPIResponse(Note):
     pass
+
+
+class GetNoteVersionAPIResponse(BaseModel):
+    notes: List[GetNoteVersionResponse]
 
 
 class CreateNoteAPIRequest(BaseModel):

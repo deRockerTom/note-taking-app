@@ -5,6 +5,7 @@ from core.notes import (
     delete_note,
     get_all_notes,
     get_note,
+    get_note_version_list,
     rollback_note,
     update_note,
 )
@@ -13,6 +14,7 @@ from fastapi import APIRouter
 from .models.notes import (
     CreateNoteAPIRequest,
     GetAllNotesAPIResponse,
+    GetNoteVersionAPIResponse,
     RollbackNoteAPIRequest,
 )
 
@@ -39,6 +41,18 @@ async def get_one_note(note_id: str):
     note = get_note(note_id)
 
     return note
+
+
+@notes_router.get("/{note_id}/versions", response_model=GetNoteVersionAPIResponse)
+async def get_note_versions(note_id: str):
+    """
+    Get all versions of a note.
+    """
+    note_versions = get_note_version_list(note_id)
+
+    return GetNoteVersionAPIResponse(
+        notes=note_versions,
+    )
 
 
 @notes_router.post("/", response_model=Note)

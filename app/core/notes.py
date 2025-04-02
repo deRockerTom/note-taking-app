@@ -82,6 +82,30 @@ def get_note(note_id: str):
     return Note(**notes[0])
 
 
+class GetNoteVersionResponse(BaseModel):
+    """
+    Response model for getting a note version.
+    """
+
+    note_id: str
+    version: int
+    date: datetime
+
+
+def get_note_version_list(note_id: str):
+    """
+    Get all versions of a note.
+    """
+    notes = list(
+        note_collection.find(
+            {"note_id": note_id}, projection=["note_id", "version", "date"]
+        ).sort("version", DESCENDING)
+    )
+    if not notes:
+        raise BackException("Note not found", 404)
+    return [GetNoteVersionResponse(**note) for note in notes]
+
+
 def update_note(
     note_id: str,
     title: str,

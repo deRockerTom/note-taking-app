@@ -1,7 +1,7 @@
 from datetime import datetime
 from unittest.mock import Mock, patch
 
-from core.notes import GetAllNotesResponse, Note
+from core.notes import GetAllNotesResponse, GetNoteVersionResponse, Note
 from fastapi.testclient import TestClient
 
 from .notes import notes_router
@@ -57,6 +57,30 @@ class TestGetOneNote:
             "version": 1,
         }
         mock_get_note.assert_called_once_with("1")
+
+
+class TestGetNoteVersions:
+    @patch("api.v1.notes.get_note_version_list")
+    def test_get_note_versions(self, mock_get_note_version_list: Mock):
+        mock_get_note_version_list.return_value = [
+            GetNoteVersionResponse(
+                note_id="1",
+                version=1,
+                date=datetime.now(),
+            )
+        ]
+        response = client.get("/1/versions")
+        assert response.status_code == 200
+        assert response.json() == {
+            "notes": [
+                {
+                    "note_id": "1",
+                    "version": 1,
+                    "date": mock_get_note_version_list.return_value[0].date.isoformat(),
+                }
+            ]
+        }
+        mock_get_note_version_list.assert_called_once_with("1")
 
 
 class TestCreateOneNote:
