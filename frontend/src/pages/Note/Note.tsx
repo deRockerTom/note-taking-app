@@ -1,12 +1,10 @@
 import { useRequiredParam } from "@hooks/useRequiredParam";
 import { unstable_usePrompt } from "react-router-dom";
-import DeleteNote from "@components/DeleteNote/DeleteNote";
 import { useLayoutContext } from "@components/Layout.helpers";
-import SaveNote from "./components/SaveNote";
-import VersionControlButton from "./components/VersionControlButton";
 import "./Note.scss";
 import classNames from "classnames";
 import useNote from "./hooks/useNote";
+import EditableNote from "./components/EditableNote";
 
 const versions = [
   {
@@ -43,8 +41,8 @@ function Note() {
     byPassPromptOnChangeRef,
     handleContentChange,
     handleTitleChange,
-    setRemoteNote,
-    setIsVersionControlVisible,
+    handleVersionControlClick,
+    refreshLastRemoteNote,
   } = useNote({
     noteId,
   });
@@ -64,56 +62,19 @@ function Note() {
 
   return (
     <div className="note">
-      <div className="note__main">
-        <div className="note__main__header">
-          <input
-            type="text"
-            value={title}
-            onChange={handleTitleChange}
-            className="note__main__header__title"
-            placeholder="Note Title"
-          />
-          <VersionControlButton
-            onClick={() => {
-              console.log("Version Control Clicked");
-              setIsVersionControlVisible((prev) => !prev);
-            }}
-          />
-          <DeleteNote
-            noteId={noteId}
-            className="note__main__header__trash-can"
-            onDelete={handleDeleteNoteClick}
-          />
-        </div>
-        <textarea
-          value={content}
-          onChange={handleContentChange}
-          className="note__main__content"
-          placeholder="Note Content"
-        />
-        <SaveNote
-          noteId={noteId}
-          content={content}
-          title={title}
-          onSave={() => {
-            // Here we assume that the note wasn't modified after in the backend
-            // and we can just update the local state
-            // We could also check the backend for the latest version of the note
-            // instead
-            setRemoteNote((prev) => {
-              if (!prev) return prev;
-              return {
-                ...prev,
-                title,
-                content,
-              };
-            });
-          }}
-          disabled={
-            title === remoteNote?.title && content === remoteNote?.content
-          }
-        />
-      </div>
+      <EditableNote
+        content={content}
+        title={title}
+        noteId={noteId}
+        isSaveDisabled={
+          title === remoteNote?.title && content === remoteNote?.content
+        }
+        onTitleChange={handleTitleChange}
+        onContentChange={handleContentChange}
+        onDeleteNoteClick={handleDeleteNoteClick}
+        onVersionControlClick={handleVersionControlClick}
+        onSaveNoteClick={refreshLastRemoteNote}
+      />
       <div
         className={classNames("note__sidebar", {
           "note__sidebar--collapsed": !isVersionControlVisible,

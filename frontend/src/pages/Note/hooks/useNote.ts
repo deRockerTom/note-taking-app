@@ -75,6 +75,11 @@ function useNote({ noteId }: useNoteProps) {
     [noteId],
   );
 
+  const handleVersionControlClick = () => {
+    console.log("Version control clicked");
+    setIsVersionControlVisible((prev) => !prev);
+  };
+
   useEffect(() => {
     refreshLastRemoteNote();
   }, [refreshLastRemoteNote]);
@@ -88,8 +93,7 @@ function useNote({ noteId }: useNoteProps) {
     byPassPromptOnChangeRef,
     handleContentChange,
     handleTitleChange,
-    setRemoteNote,
-    setIsVersionControlVisible,
+    handleVersionControlClick,
     refreshRemoteNoteVersion,
     refreshLastRemoteNote,
   };
