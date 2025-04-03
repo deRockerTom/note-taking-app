@@ -9,10 +9,10 @@ services:
       - ./mongo-data:/data/db
     healthcheck:
       test: echo 'db.runCommand("ping").ok' | mongosh --quiet
-      interval: 10s
-      timeout: 5s
+      interval: 5s
+      timeout: 3s
       retries: 5
-      start_period: 5s
+      start_period: 3s
   app:
     build:
       context: .
@@ -30,10 +30,10 @@ services:
       - MONGO_DB=notes-app
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/health"]
-      interval: 10s
-      timeout: 5s
+      interval: 5s
+      timeout: 3s
       retries: 5
-      start_period: 2s
+      start_period: 1s
   frontend:
     build:
       context: .
