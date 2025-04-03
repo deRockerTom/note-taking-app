@@ -26,9 +26,9 @@ function NoteHeader({
       showDiffOnly={false}
       styles={diffStyleOptions}
     />
-  ) : isLastVersion ? (
+  ) : (
     <textarea
-      value={title}
+      value={isLastVersion ? title : oldTitle}
       onChange={onTitleChange}
       onKeyDown={(e) => {
         if (e.key === "Enter") {
@@ -37,15 +37,7 @@ function NoteHeader({
       }}
       className="note-header__last-version"
       placeholder="Note Title"
-    />
-  ) : (
-    <DiffViewer
-      oldValue={oldTitle}
-      newValue={title}
-      splitView={false}
-      hideLineNumbers={true}
-      showDiffOnly={false}
-      styles={diffStyleOptions}
+      readOnly={!isLastVersion}
     />
   );
 }

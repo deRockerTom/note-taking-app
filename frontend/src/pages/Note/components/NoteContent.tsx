@@ -28,42 +28,13 @@ function NoteContent({
           showDiffOnly={false}
           styles={diffStyleOptions}
         />
-      ) : isLastVersion ? (
+      ) : (
         <textarea
-          value={content}
+          value={isLastVersion ? content : oldContent}
           onChange={onContentChange}
           className="note-content__content"
           placeholder="Note Content"
-        />
-      ) : (
-        <DiffViewer
-          oldValue={oldContent}
-          newValue={content}
-          splitView={false}
-          hideLineNumbers={true}
-          showDiffOnly={false}
-          styles={diffStyleOptions}
-        />
-      )}
-    </div>
-  );
-  return (
-    <div className="note-content">
-      {isLastVersion ? (
-        <textarea
-          value={content}
-          onChange={onContentChange}
-          className="note-content__content"
-          placeholder="Note Content"
-        />
-      ) : (
-        <DiffViewer
-          oldValue={oldContent}
-          newValue={content}
-          splitView={false}
-          hideLineNumbers={true}
-          showDiffOnly={false}
-          styles={diffStyleOptions}
+          readOnly={!isLastVersion}
         />
       )}
     </div>
