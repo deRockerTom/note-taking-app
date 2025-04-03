@@ -13,6 +13,6 @@ docker-compose up
 - [x] Create a new note
 - [x] Modify an existing note
 - [x] Delete a note
-- [ ] Show the modification history of a note
-  - [ ] Optional: Have a "git diff" like to see the changes from previous versions
-- [ ] Go back to a previous version
+- [x] Show the modification history of a note
+  - [x] Optional: Have a "git diff" like to see the changes from previous versions
+- [x] Go back to a previous version
