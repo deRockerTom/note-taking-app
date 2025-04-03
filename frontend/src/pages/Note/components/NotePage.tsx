@@ -1,8 +1,8 @@
 import { Note } from "@client";
-import SaveNote from "./SaveNote";
 import NoteHeader from "./NoteHeader";
 import NoteHeaderButtons from "./NoteHeaderButtons";
 import NoteContent from "./NoteContent";
+import SubmitButton from "./SubmitButton";
 import "./NotePage.scss";
 
 interface NotePageProps {
@@ -32,6 +32,7 @@ function NotePage({
   onDeleteNoteClick,
   onVersionControlClick,
   onSaveNoteClick,
+  onRevertToVersion,
 }: NotePageProps) {
   return (
     <div className="note-page">
@@ -57,12 +58,14 @@ function NotePage({
         isLastVersion={isLastVersion}
         onContentChange={onContentChange}
       />
-      <SaveNote
+      <SubmitButton
         noteId={noteId}
         content={content}
         title={title}
-        onSave={onSaveNoteClick}
-        disabled={isSaveDisabled}
+        isLastVersion={isLastVersion}
+        onRevertToVersion={onRevertToVersion}
+        onSaveNoteClick={onSaveNoteClick}
+        isSaveDisabled={isSaveDisabled}
       />
     </div>
   );
