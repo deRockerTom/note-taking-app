@@ -1,11 +1,40 @@
 .home {
-  h1 {
-    font-size: 2rem;
-    color: #333;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: #f5f7fa; /* Light background color */
+  height: 100vh;
+  padding: 2rem;
+  text-align: center;
+
+  &__welcome-message {
+    background-color: #ffffff; /* White background for the welcome box */
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    width: 100%;
+    margin-bottom: 1.5rem;
+
+    &__header {
+      font-size: 2.5rem;
+      color: var(--dark-color);
+      margin-bottom: 1rem;
+    }
+
+    &__subheader {
+      color: var(--grey-color);
+      font-size: 1.1rem;
+    }
   }
 
-  p {
-    color: #666;
-    margin-top: 0.5rem;
+  &__instruction {
+    font-size: 1.2rem;
+    color: var(--light-grey-color);
+    max-width: 600px;
+    width: 100%;
+    line-height: 1.5;
+    font-style: italic;
   }
 }
