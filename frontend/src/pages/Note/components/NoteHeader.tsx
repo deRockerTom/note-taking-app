@@ -6,6 +6,7 @@ interface NoteHeaderProps {
   title: string;
   oldTitle: string;
   isLastVersion: boolean;
+  showDiff: boolean;
   onTitleChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
 }
 
@@ -13,9 +14,19 @@ function NoteHeader({
   title,
   oldTitle,
   isLastVersion,
+  showDiff,
   onTitleChange,
 }: NoteHeaderProps) {
-  return isLastVersion ? (
+  return showDiff ? (
+    <DiffViewer
+      oldValue={oldTitle}
+      newValue={title}
+      splitView={false}
+      hideLineNumbers={true}
+      showDiffOnly={false}
+      styles={diffStyleOptions}
+    />
+  ) : isLastVersion ? (
     <textarea
       value={title}
       onChange={onTitleChange}

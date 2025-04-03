@@ -9,6 +9,7 @@ interface NoteHeaderButtonsProps {
   isLastVersion: boolean;
   onDeleteNoteClick: () => void;
   onVersionControlClick: () => void;
+  onDiffClick: () => void;
 }
 
 function NoteHeaderButtons({
@@ -16,6 +17,7 @@ function NoteHeaderButtons({
   isLastVersion,
   onDeleteNoteClick,
   onVersionControlClick,
+  onDiffClick,
 }: NoteHeaderButtonsProps) {
   return (
     <div className="note-header-buttons">
@@ -28,7 +30,7 @@ function NoteHeaderButtons({
       )}
       <SVGButton
         classNames={["note-header-buttons__diff"]}
-        onClick={() => {}}
+        onClick={onDiffClick}
         SVGIcon={DiffIcon}
       />
       <VersionControlButton onClick={onVersionControlClick} />

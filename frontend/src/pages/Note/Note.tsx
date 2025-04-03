@@ -18,11 +18,13 @@ function Note() {
     versions,
     byPassPromptOnChangeRef,
     isLastVersion,
+    showDiff,
     handleContentChange,
     handleTitleChange,
     handleVersionControlClick,
     handleVersionClick,
     handleRevertToVersionClick,
+    handleSetShowDiff,
     refreshLastRemoteNote,
   } = useNote({
     noteId,
@@ -62,6 +64,8 @@ function Note() {
             }
             onSaveNoteClick={refreshLastRemoteNote}
             isLastVersion={isLastVersion}
+            onDiffClick={handleSetShowDiff}
+            showDiff={showDiff}
           />
           <VersionSidebar
             versions={versions}

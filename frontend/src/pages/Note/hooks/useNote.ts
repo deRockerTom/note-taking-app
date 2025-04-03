@@ -21,6 +21,7 @@ function useNote({ noteId }: useNoteProps) {
   const [content, setContent] = useState("");
   const [selectedVersion, setSelectedVersion] = useState(0);
   const [versions, setVersions] = useState<GetNoteVersionResponse[]>([]);
+  const [showDiff, setShowDiff] = useState(false);
   const byPassPromptOnChangeRef = useRef(false);
   const isLastVersion = selectedVersion === versions.at(0)?.version;
 
@@ -106,8 +107,11 @@ function useNote({ noteId }: useNoteProps) {
   };
 
   const handleVersionControlClick = () => {
-    console.log("Version control clicked");
     setIsVersionControlVisible((prev) => !prev);
+  };
+
+  const handleSetShowDiff = () => {
+    setShowDiff((prev) => !prev);
   };
 
   const handleRevertToVersionClick = (version: number) => {
@@ -147,10 +151,12 @@ function useNote({ noteId }: useNoteProps) {
     versions,
     byPassPromptOnChangeRef,
     isLastVersion,
+    showDiff,
     handleContentChange,
     handleTitleChange,
     handleVersionControlClick,
     handleVersionClick,
+    handleSetShowDiff,
     handleRevertToVersionClick,
     refreshRemoteNoteVersion,
     refreshLastRemoteNote,

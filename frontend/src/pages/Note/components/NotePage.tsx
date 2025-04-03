@@ -12,12 +12,14 @@ interface NotePageProps {
   isSaveDisabled: boolean;
   isLastVersion: boolean;
   remoteNote: Note;
+  showDiff: boolean;
   onTitleChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
   onContentChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
   onDeleteNoteClick: () => void;
   onVersionControlClick: () => void;
   onSaveNoteClick: () => void;
   onRevertToVersion: () => void;
+  onDiffClick: () => void;
 }
 
 function NotePage({
@@ -27,12 +29,14 @@ function NotePage({
   isSaveDisabled,
   isLastVersion,
   remoteNote,
+  showDiff,
   onTitleChange,
   onContentChange,
   onDeleteNoteClick,
   onVersionControlClick,
   onSaveNoteClick,
   onRevertToVersion,
+  onDiffClick,
 }: NotePageProps) {
   return (
     <div className="note-page">
@@ -42,6 +46,7 @@ function NotePage({
             title={title}
             oldTitle={remoteNote.title}
             isLastVersion={isLastVersion}
+            showDiff={showDiff}
             onTitleChange={onTitleChange}
           />
         </div>
@@ -50,12 +55,14 @@ function NotePage({
           isLastVersion={isLastVersion}
           onDeleteNoteClick={onDeleteNoteClick}
           onVersionControlClick={onVersionControlClick}
+          onDiffClick={onDiffClick}
         />
       </div>
       <NoteContent
         content={content}
         oldContent={remoteNote.content}
         isLastVersion={isLastVersion}
+        showDiff={showDiff}
         onContentChange={onContentChange}
       />
       <SubmitButton
