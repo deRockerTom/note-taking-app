@@ -40,6 +40,7 @@ function DeleteNote({ noteId, onDelete, className }: DeleteNoteProps) {
       classNames={["delete-note", className]}
       onClick={handleDelete}
       SVGIcon={TrashCanIcon}
+      tooltipContent="Delete note"
     />
   );
 }

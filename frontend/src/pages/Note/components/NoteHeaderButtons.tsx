@@ -39,6 +39,7 @@ function NoteHeaderButtons({
         ]}
         onClick={onDiffClick}
         SVGIcon={DiffIcon}
+        tooltipContent={showDiff ? "Hide diff" : "Show diff"}
       />
       <VersionControlButton onClick={onVersionControlClick} />
     </div>

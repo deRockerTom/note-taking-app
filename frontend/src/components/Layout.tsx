@@ -8,6 +8,7 @@ import CreateNote from "./CreateNote/CreateNote";
 import { LayoutContext } from "./Layout.helpers";
 import classNames from "classnames";
 import "./Layout.scss";
+import CustomTooltip from "./CustomTooltip/CustomTooltip";
 
 function Layout() {
   const { noteId } = useParams();
@@ -94,6 +95,7 @@ function Layout() {
       <main className="layout__content">
         <Outlet context={outletContext} />
       </main>
+      <CustomTooltip />
     </div>
   );
 }

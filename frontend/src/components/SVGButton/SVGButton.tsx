@@ -1,10 +1,12 @@
 import { FunctionComponent, MouseEventHandler, SVGProps } from "react";
 import classNamesFunction, { Value } from "classnames";
 import "./SVGButton.scss";
+import { TOOLTIP_ID } from "@components/CustomTooltip/tooltipUtils";
 
 interface SVGButtonProps {
   onClick: MouseEventHandler<HTMLButtonElement>;
   classNames?: Value[];
+  tooltipContent?: string;
   SVGIcon: FunctionComponent<
     SVGProps<SVGSVGElement> & {
       title?: string;
@@ -19,6 +21,7 @@ const emptyArray: Value[] = [];
 function SVGButton({
   onClick,
   classNames = emptyArray,
+  tooltipContent,
   SVGIcon,
 }: SVGButtonProps) {
   return (
@@ -26,6 +29,8 @@ function SVGButton({
       className={classNamesFunction("svg-button", ...classNames)}
       onClick={onClick}
       type="button"
+      data-tooltip-content={tooltipContent}
+      data-tooltip-id={TOOLTIP_ID}
     >
       <SVGIcon
         className={classNamesFunction(
