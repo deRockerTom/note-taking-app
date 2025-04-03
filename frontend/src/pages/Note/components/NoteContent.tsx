@@ -33,7 +33,7 @@ function NoteContent({
           value={isLastVersion ? content : oldContent}
           onChange={onContentChange}
           className="note-content__content"
-          placeholder="Note Content"
+          placeholder={isLastVersion ? "Note Content" : undefined}
           readOnly={!isLastVersion}
         />
       )}
