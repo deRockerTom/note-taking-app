@@ -5,7 +5,7 @@
 You can run the app using the following command:
 
 ```bash
-docker-compose up
+docker-compose up --build
 ```
 
 ## Features
