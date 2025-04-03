@@ -1,5 +1,7 @@
 import DeleteNote from "@components/DeleteNote/DeleteNote";
 import VersionControlButton from "./VersionControlButton";
+import SVGButton from "@components/SVGButton/SVGButton";
+import DiffIcon from "@assets/Diff.svg?react";
 import "./NoteHeaderButtons.scss";
 
 interface NoteHeaderButtonsProps {
@@ -24,6 +26,11 @@ function NoteHeaderButtons({
           onDelete={onDeleteNoteClick}
         />
       )}
+      <SVGButton
+        classNames={["note-header-buttons__diff"]}
+        onClick={() => {}}
+        SVGIcon={DiffIcon}
+      />
       <VersionControlButton onClick={onVersionControlClick} />
     </div>
   );
