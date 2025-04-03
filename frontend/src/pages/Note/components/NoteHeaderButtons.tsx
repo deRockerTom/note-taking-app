@@ -7,6 +7,7 @@ import "./NoteHeaderButtons.scss";
 interface NoteHeaderButtonsProps {
   noteId: string;
   isLastVersion: boolean;
+  showDiff: boolean;
   onDeleteNoteClick: () => void;
   onVersionControlClick: () => void;
   onDiffClick: () => void;
@@ -15,6 +16,7 @@ interface NoteHeaderButtonsProps {
 function NoteHeaderButtons({
   noteId,
   isLastVersion,
+  showDiff,
   onDeleteNoteClick,
   onVersionControlClick,
   onDiffClick,
@@ -29,7 +31,12 @@ function NoteHeaderButtons({
         />
       )}
       <SVGButton
-        classNames={["note-header-buttons__diff"]}
+        classNames={[
+          "note-header-buttons__diff",
+          showDiff
+            ? "note-header-buttons__diff--active"
+            : "note-header-buttons__diff--inactive",
+        ]}
         onClick={onDiffClick}
         SVGIcon={DiffIcon}
       />

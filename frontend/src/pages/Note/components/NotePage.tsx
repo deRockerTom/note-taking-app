@@ -53,6 +53,7 @@ function NotePage({
         <NoteHeaderButtons
           noteId={noteId}
           isLastVersion={isLastVersion}
+          showDiff={showDiff}
           onDeleteNoteClick={onDeleteNoteClick}
           onVersionControlClick={onVersionControlClick}
           onDiffClick={onDiffClick}

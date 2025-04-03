@@ -15,9 +15,19 @@
   }
   &__diff {
     display: flex;
-    padding: 0.5rem;
+    padding: 0.25rem;
     justify-content: center;
     align-items: center;
     width: fit-content;
+    border-radius: 50%;
+
+    &--active {
+      background-color: var(--success-color);
+      color: var(--white-color);
+    }
+    &--inactive {
+      background-color: var(--danger-color);
+      color: var(--black-color);
+    }
   }
 }
