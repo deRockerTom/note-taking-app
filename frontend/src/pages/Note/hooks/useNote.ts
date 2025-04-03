@@ -26,7 +26,7 @@ function useNote({ noteId }: useNoteProps) {
 
   const navigate = useNavigate();
 
-  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleTitleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setTitle(event.target.value);
   };
 

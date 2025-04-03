@@ -4,7 +4,7 @@ import { useLayoutContext } from "@components/Layout.helpers";
 import useNote from "./hooks/useNote";
 import VersionSidebar from "./components/VersionSidebar";
 import "./Note.scss";
-import NoteContent from "./components/NoteContent";
+import NotePage from "./components/NotePage";
 
 function Note() {
   const noteId = useRequiredParam("noteId");
@@ -45,7 +45,7 @@ function Note() {
     <div className="note">
       {remoteNote && (
         <>
-          <NoteContent
+          <NotePage
             content={content}
             title={title}
             noteId={noteId}

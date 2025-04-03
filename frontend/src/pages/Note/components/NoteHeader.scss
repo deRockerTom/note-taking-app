@@ -1,0 +1,17 @@
+.note-header__last-version {
+  border: none;
+  background: transparent;
+  font-weight: inherit;
+  padding-top: 0.3rem;
+  padding-left: 1.75rem;
+  font-size: inherit;
+  width: 100%;
+  height: auto;
+  vertical-align: top;
+  resize: none;
+  display: table;
+  &:focus {
+    border: none;
+    outline: none;
+  }
+}

@@ -1,0 +1,16 @@
+.note-header-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+  width: fit-content;
+  padding: 0 0.5rem;
+
+  &__trash-can {
+    display: flex;
+    padding: 0.5rem;
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
+  }
+}
