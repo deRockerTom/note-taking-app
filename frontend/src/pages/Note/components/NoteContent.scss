@@ -4,6 +4,7 @@
   width: 100%;
   padding: 2rem;
   overflow-y: auto;
+  overflow-x: hidden;
   line-height: normal;
   &__content {
     resize: none;
