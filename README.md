@@ -41,6 +41,7 @@ Docker is used to run the app in "production mode". This allows for easy deploym
 - Better CORS in the backend (currently allows all origins)
 - Better error handling in the frontend (currently only log the errors to the console). I could for example use a toast library (like [react-toastify](https://www.npmjs.com/package/react-toastify)) to show the errors to the user.
 - Better styling of the app. I'm not a designer, even though I tried to have a usable and nice design, I don't find it very attractive.
+- Add tests to the frontend.
 
 ## Feature ideas
 - [ ] Add a search bar to search for notes
