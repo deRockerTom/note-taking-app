@@ -30,6 +30,7 @@ function SubmitButton({
     />
   ) : (
     <button
+      data-testid="revert-to-version-button"
       className="submit-button__revert-button"
       onClick={onRevertToVersion}
       type="button"

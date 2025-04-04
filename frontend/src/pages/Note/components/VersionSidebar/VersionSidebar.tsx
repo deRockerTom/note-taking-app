@@ -17,14 +17,23 @@ function VersionSidebar({
 }: VersionSidebarProps) {
   return (
     <div
+      data-testid="version-sidebar"
       className={classNames("version-sidebar", {
         "version-sidebar--collapsed": !isVersionControlVisible,
       })}
     >
       {isVersionControlVisible && (
         <>
-          <div className="version-sidebar__title">Versions</div>
-          <div className="version-sidebar__version-list">
+          <div
+            className="version-sidebar__title"
+            data-testid="version-sidebar-title"
+          >
+            Versions
+          </div>
+          <div
+            className="version-sidebar__version-list"
+            data-testid="version-sidebar-list"
+          >
             {versions.map((version) => (
               <span
                 key={version.version}
@@ -33,6 +42,7 @@ function VersionSidebar({
                     version.version === selectedVersion,
                 })}
                 onClick={() => onVersionSelect(version)}
+                data-testid={`version-item-${version.version}`}
               >
                 {new Date(version.date).toLocaleDateString(undefined, {
                   hour: "2-digit",

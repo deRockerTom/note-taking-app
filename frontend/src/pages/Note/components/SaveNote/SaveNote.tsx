@@ -40,6 +40,7 @@ function SaveNote({ noteId, disabled, title, content, onSave }: SaveNoteProps) {
 
   return (
     <button
+      data-testid="save-note-button"
       className="save-note"
       onClick={handleSaveNote}
       type="submit"
