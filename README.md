@@ -48,3 +48,4 @@ Docker is used to run the app in "production mode". This allows for easy deploym
 - [ ] Add a tag system to categorize notes
 - [ ] Add a dark mode
 - [ ] Add a login system
+- [ ] Add https support
