@@ -1,5 +1,5 @@
 # --- Build Stage ---
-FROM oven/bun:${BUN_VERSION:-1.2.7} AS builder
+FROM oven/bun:${BUN_VERSION:-1.2.8} AS builder
 
 ARG VITE_BACKEND_URL
 ENV VITE_BACKEND_URL=${VITE_BACKEND_URL}
