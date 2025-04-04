@@ -42,6 +42,7 @@ Docker is used to run the app in "production mode". This allows for easy deploym
 - Better CORS in the backend (currently allows all origins)
 - Better error handling in the frontend (currently only log the errors to the console). I could for example use a toast library (like [react-toastify](https://www.npmjs.com/package/react-toastify)) to show the errors to the user.
 - Better styling of the app. I'm not a designer, even though I tried to have a usable and nice design, I don't find it very attractive.
+- Add other response code possibilities for each route in the backend for openAPI documentation. Currently, only 200 response code is documented, but I could add 404 for example.
 
 ## Feature ideas
 - [ ] Add a search bar to search for notes
