@@ -158,7 +158,6 @@ function useNote({ noteId }: useNoteProps) {
     handleVersionClick,
     handleSetShowDiff,
     handleRevertToVersionClick,
-    refreshRemoteNoteVersion,
     refreshLastRemoteNote,
   };
 }

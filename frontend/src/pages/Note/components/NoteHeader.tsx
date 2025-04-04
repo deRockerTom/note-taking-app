@@ -28,6 +28,7 @@ function NoteHeader({
     />
   ) : (
     <textarea
+      data-testid="note-header-textarea"
       value={isLastVersion ? title : oldTitle}
       onChange={onTitleChange}
       onKeyDown={(e) => {

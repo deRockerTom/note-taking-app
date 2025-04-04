@@ -35,6 +35,7 @@ function NoteContent({
           className="note-content__content"
           placeholder={isLastVersion ? "Note Content" : undefined}
           readOnly={!isLastVersion}
+          data-testid="note-content-textarea"
         />
       )}
     </div>
