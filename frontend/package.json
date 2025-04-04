@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc --project tsconfig.app.json && vite build",
     "build:client": "bunx @hey-api/openapi-ts -i $VITE_BACKEND_URL/openapi.json -o src/client -c @hey-api/client-fetch",
     "lint": "eslint .",
     "preview": "vite preview",
