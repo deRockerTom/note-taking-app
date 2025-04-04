@@ -45,3 +45,10 @@ To build the application for production, you can run the following command:
 bun run build
 ```
 This will create a `dist` directory with the production build of the application. You can then serve the application using a static file server or deploy it to a hosting service.
+
+## Running Tests
+To run the tests, you can run the following command:
+
+```bash
+bun run test
+```
