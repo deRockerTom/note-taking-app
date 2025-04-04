@@ -43,11 +43,11 @@ vi.mock("./hooks/useNote", () => ({
 }));
 
 // Mock child components so we don't test them here
-vi.mock("./components/NotePage", () => ({
+vi.mock("./components/NotePage/NotePage", () => ({
   default: () => <div data-testid="NotePage">NotePage</div>,
 }));
 
-vi.mock("./components/VersionSidebar", () => ({
+vi.mock("./components/VersionSidebar/VersionSidebar", () => ({
   default: () => <div data-testid="VersionSidebar">VersionSidebar</div>,
 }));
 

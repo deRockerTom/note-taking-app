@@ -1,4 +1,4 @@
-import SaveNote from "./SaveNote";
+import SaveNote from "../SaveNote/SaveNote";
 import "./SubmitButton.scss";
 
 interface SubmitButtonProps {

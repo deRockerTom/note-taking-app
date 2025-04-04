@@ -1,5 +1,5 @@
 import DeleteNote from "@components/DeleteNote/DeleteNote";
-import VersionControlButton from "./VersionControlButton";
+import VersionControlButton from "../VersionControlButton/VersionControlButton";
 import SVGButton from "@components/SVGButton/SVGButton";
 import DiffIcon from "@assets/Diff.svg?react";
 import "./NoteHeaderButtons.scss";

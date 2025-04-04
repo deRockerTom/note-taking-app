@@ -1,8 +1,8 @@
 import { Note } from "@client";
-import NoteHeader from "./NoteHeader";
-import NoteHeaderButtons from "./NoteHeaderButtons";
-import NoteContent from "./NoteContent";
-import SubmitButton from "./SubmitButton";
+import NoteHeader from "../NoteHeader/NoteHeader";
+import NoteHeaderButtons from "../NoteHeaderButtons/NoteHeaderButtons";
+import NoteContent from "../NoteContent/NoteContent";
+import SubmitButton from "../SubmitButton/SubmitButton";
 import "./NotePage.scss";
 
 interface NotePageProps {

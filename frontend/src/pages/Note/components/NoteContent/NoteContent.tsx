@@ -1,5 +1,5 @@
 import DiffViewer from "react-diff-viewer-continued";
-import { diffStyleOptions } from "./diffViewerOptions";
+import { diffStyleOptions } from "../diffViewerOptions";
 import "./NoteContent.scss";
 
 interface NoteContentProps {

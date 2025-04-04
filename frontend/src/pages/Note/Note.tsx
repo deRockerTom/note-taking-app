@@ -2,9 +2,9 @@ import { useRequiredParam } from "@hooks/useRequiredParam";
 import { unstable_usePrompt } from "react-router-dom";
 import { useLayoutContext } from "@components/Layout.helpers";
 import useNote from "./hooks/useNote";
-import VersionSidebar from "./components/VersionSidebar";
+import VersionSidebar from "./components/VersionSidebar/VersionSidebar";
 import "./Note.scss";
-import NotePage from "./components/NotePage";
+import NotePage from "./components/NotePage/NotePage";
 
 function Note() {
   const noteId = useRequiredParam("noteId");
