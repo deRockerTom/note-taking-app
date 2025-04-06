@@ -16,6 +16,7 @@ function Layout() {
 
   const [noteList, setNoteList] = useState<GetAllNotesResponse[]>([]);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const deletingNoteIds = useMemo(() => new Set<string>(), []);
 
   const refreshNoteList = useCallback(() => {
     getNotesApiV1NotesGet({
@@ -32,6 +33,7 @@ function Layout() {
 
   const handleDeleteNote = useCallback(
     (noteIdToDelete: string) => {
+      deletingNoteIds.add(noteIdToDelete);
       if (noteIdToDelete === noteId) {
         navigate("/")?.catch((error) => {
           console.error(
@@ -41,16 +43,18 @@ function Layout() {
         });
       }
       refreshNoteList();
+      deletingNoteIds.delete(noteIdToDelete);
     },
-    [noteId, refreshNoteList, navigate],
+    [deletingNoteIds, noteId, refreshNoteList, navigate],
   );
 
   const outletContext = useMemo<LayoutContext>(
     () => ({
+      deletingNoteIds,
       refreshNoteList,
       handleDeleteNote,
     }),
-    [refreshNoteList, handleDeleteNote],
+    [deletingNoteIds, refreshNoteList, handleDeleteNote],
   );
 
   useEffect(() => {

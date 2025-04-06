@@ -7,7 +7,7 @@ import {
   rollbackOneNoteApiV1NotesNoteIdRollbackPost,
 } from "@client";
 import { backendFetchClient } from "@shared/fetchClient";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 interface useNoteProps {
@@ -22,7 +22,6 @@ function useNote({ noteId }: useNoteProps) {
   const [selectedVersion, setSelectedVersion] = useState(0);
   const [versions, setVersions] = useState<GetNoteVersionResponse[]>([]);
   const [showDiff, setShowDiff] = useState(false);
-  const byPassPromptOnChangeRef = useRef(false);
   const isLastVersion = selectedVersion === versions.at(0)?.version;
 
   const navigate = useNavigate();
@@ -53,7 +52,6 @@ function useNote({ noteId }: useNoteProps) {
       })
       .catch((error) => {
         console.error("Error fetching note:", error);
-        byPassPromptOnChangeRef.current = true;
         navigate("/")?.catch((error) => {
           console.error("Error navigating to Home after fetching note:", error);
         });
@@ -71,7 +69,6 @@ function useNote({ noteId }: useNoteProps) {
       })
       .catch((error) => {
         console.error("Error fetching note versions:", error);
-        byPassPromptOnChangeRef.current = true;
         navigate("/")?.catch((error) => {
           console.error(
             "Error navigating to Home after fetching note versions:",
@@ -149,7 +146,6 @@ function useNote({ noteId }: useNoteProps) {
     title,
     content,
     versions,
-    byPassPromptOnChangeRef,
     isLastVersion,
     showDiff,
     handleContentChange,

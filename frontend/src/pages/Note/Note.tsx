@@ -8,7 +8,7 @@ import NotePage from "./components/NotePage/NotePage";
 
 function Note() {
   const noteId = useRequiredParam("noteId");
-  const { handleDeleteNote } = useLayoutContext();
+  const { handleDeleteNote, deletingNoteIds } = useLayoutContext();
   const {
     remoteNote,
     isVersionControlVisible,
@@ -16,7 +16,6 @@ function Note() {
     title,
     content,
     versions,
-    byPassPromptOnChangeRef,
     isLastVersion,
     showDiff,
     handleContentChange,
@@ -31,7 +30,6 @@ function Note() {
   });
 
   const handleDeleteNoteClick = () => {
-    byPassPromptOnChangeRef.current = true;
     handleDeleteNote(noteId);
   };
 
@@ -39,7 +37,7 @@ function Note() {
     message:
       "Are you sure that you want to leave ? You have unsaved changes that will be lost if you leave.",
     when: () =>
-      !byPassPromptOnChangeRef.current &&
+      !deletingNoteIds.has(noteId) &&
       (title !== remoteNote?.title || content !== remoteNote?.content),
   });
 
