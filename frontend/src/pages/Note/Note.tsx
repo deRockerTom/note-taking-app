@@ -8,7 +8,8 @@ import NotePage from "./components/NotePage/NotePage";
 
 function Note() {
   const noteId = useRequiredParam("noteId");
-  const { handleDeleteNote, deletingNoteIds } = useLayoutContext();
+  const { handleDeleteNote, deletingNoteIds, refreshNoteList } =
+    useLayoutContext();
   const {
     remoteNote,
     isVersionControlVisible,
@@ -57,9 +58,10 @@ function Note() {
             onContentChange={handleContentChange}
             onDeleteNoteClick={handleDeleteNoteClick}
             onVersionControlClick={handleVersionControlClick}
-            onRevertToVersion={() =>
-              handleRevertToVersionClick(selectedVersion)
-            }
+            onRevertToVersion={() => {
+              handleRevertToVersionClick(selectedVersion);
+              refreshNoteList();
+            }}
             onSaveNoteClick={refreshLastRemoteNote}
             isLastVersion={isLastVersion}
             onDiffClick={handleSetShowDiff}
