@@ -44,6 +44,7 @@ Docker is used to run the app in "production mode". This allows for easy deploym
 - Better styling of the app. I'm not a designer, even though I tried to have a usable and nice design, I don't find it very attractive.
 - Add other response code possibilities for each route in the backend for openAPI documentation. Currently, only 200 response code is documented, but I could add 404 for example.
 - Add index to the database. Currently, the database is not indexed, which can lead to performance issues when the number of notes increases. I could add an index on the note_id field for example. This indexing could be triggered by the backend with the use of an environment variable. It could also be done manually with the use of a script.
+- Asyncify the backend. Currently, the backend is not async, which can lead to performance issues when the number of requests increases. I could add async support to the backend with the use of [async pymongo](https://pymongo.readthedocs.io/en/stable/async-tutorial.html) (beta) or [motor](https://motor.readthedocs.io/en/stable/).
 
 ## Feature ideas
 - [ ] Add a search bar to search for notes
